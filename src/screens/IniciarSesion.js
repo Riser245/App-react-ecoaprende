@@ -7,7 +7,7 @@ export default function IniciarSesion() {
 
     return (
         <View style={styles.container}>
-            <Text></Text>
+            <Text>En proceso...</Text>
         </View >
     );
 }
