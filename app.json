@@ -7,7 +7,7 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./src/img/logo_panaderia.png",
+      "image": "../assets/SplashVideo.mp4",
       "resizeMode": "contain",
       "backgroundColor": "#FEFEFE"
     },

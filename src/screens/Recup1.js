@@ -31,10 +31,12 @@ export default function Recup1({ navigation }) {
 
     return (
         <View style={styles.container}>
+            <Text> ¿Olvidaste tú clave? </Text>
             <Image
-                source={require('../img/logo_panaderia.png')} // Ruta de la imagen dentro de la carpeta de activos
+                source={require('../img/imagen_recup1.png')} // Ruta de la imagen dentro de la carpeta de activos
                 style={styles.image}
             />
+            <Text> Ingresa el correo electrónico, con el cuál te registraste. </Text>
             <View style={styles.container2}>
                 <Text style={styles.texto}>Correo</Text>
                 <View style={styles.container3}>
@@ -108,8 +110,8 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
     image: {
-        width: 240,
-        height: 240,
+        width: 150,
+        height: 150,
         marginBottom: 20,
     },
     input: {
