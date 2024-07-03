@@ -8,15 +8,14 @@ export default function Registrar({ navigation }) {
 
     // Constantes para validar.
     const [nombre, setNombre] = useState('');
-    const [apellido, setApellido] = useState('');
     const [telefono, setTelefono] = useState('');
-    const [contrasena, setContrasena] = useState('');
+    const [clave, setClave] = useState('');
     const [correo, setCorreo] = useState('');
-    const [direccion, setDireccion] = useState('');
+    const [dui, setDui] = useState('');
 
     // Navegación entre pantallas y validación de la pantalla.
     const irInicioCreado = async () => {
-        if (!nombre || !apellido || !telefono || !contrasena || !correo || !direccion) {
+        if (!nombre || !correo || !clave || !telefono || !dui) {
             Toast.show({
                 type: 'error',
                 text1: 'Faltan datos',
@@ -34,47 +33,44 @@ export default function Registrar({ navigation }) {
     return (
         <ScrollView>
             <View style={styles.container}>
+
+            <Text style={styles.textBienvenida}>¡Bienvenido a EcoAprende!</Text>
+            <Text style={styles.textRegistro}>Registra tú usuario para que</Text>
+            <Text style={styles.textRegistro}>disfrutes de nuestra aplicación.</Text>
                 <Image
-                    source={require('../img/logo_panaderia.png')}
+                    source={require('../img/registrar.png')}
                     style={styles.logo}
                 />
                 <View style={styles.rowContainer}>
                     <View style={styles.inputContainer}>
-                        <Text style={styles.textRegistro}>Nombre</Text>
-                        <TextInput style={styles.cuadroTextoP} value={nombre} onChangeText={setNombre} />
-                    </View>
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.textRegistro}>Apellido</Text>
-                        <TextInput style={styles.cuadroTextoP} value={apellido} onChangeText={setApellido} />
+                        <TextInput placeholder='Nombre' style={styles.cuadroTextoG} value={nombre} onChangeText={setNombre} />
                     </View>
                 </View>
                 <View style={styles.rowContainer}>
                     <View style={styles.inputContainer}>
-                        <Text style={styles.textRegistro}>Teléfono</Text>
-                        <TextInput style={styles.cuadroTextoP} value={telefono} onChangeText={setTelefono} />
-                    </View>
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.textRegistro}>Contraseña</Text>
-                        <TextInput style={styles.cuadroTextoP} value={contrasena} onChangeText={setContrasena} secureTextEntry />
+                        <TextInput placeholder='Correo electronico' style={styles.cuadroTextoG} value={correo} onChangeText={setCorreo} keyboardType="email-address" />
                     </View>
                 </View>
                 <View style={styles.rowContainer}>
                     <View style={styles.inputContainer}>
-                        <Text style={styles.textRegistro}>Correo</Text>
-                        <TextInput style={styles.cuadroTextoG} value={correo} onChangeText={setCorreo} keyboardType="email-address" />
+                        <TextInput placeholder='Clave' style={styles.cuadroTextoG} value={clave} onChangeText={setClave} secureTextEntry />
                     </View>
                 </View>
                 <View style={styles.rowContainer}>
                     <View style={styles.inputContainer}>
-                        <Text style={styles.textRegistro}>Dirección</Text>
-                        <TextInput style={styles.cuadroTextoG} value={direccion} onChangeText={setDireccion} />
+                        <TextInput placeholder='Telefono cliente' style={styles.cuadroTextoG} value={telefono} onChangeText={setTelefono} keyboardType="email-address" />
+                    </View>
+                </View>
+                <View style={styles.rowContainer}>
+                    <View style={styles.inputContainer}>
+                        <TextInput placeholder='DUI' style={styles.cuadroTextoG} value={dui} onChangeText={setDui} />
                     </View>
                 </View>
                 <View style={styles.container2}>
                     <TouchableOpacity onPress={irInicioCreado} style={styles.button}>
                         <Text style={styles.buttonText}>Registrarse</Text>
                     </TouchableOpacity>
-                    <Text onPress={irInicio} style={styles.buttonText2}>¿Ya tienes cuenta?</Text>
+                    <Text onPress={irInicio} style={styles.buttonText2}> Regresar al login</Text>
                 </View>
                 <Toast ref={(ref) => Toast.setRef(ref)} />
             </View>
@@ -85,7 +81,7 @@ export default function Registrar({ navigation }) {
 // Diseño de la pantalla.
 const styles = StyleSheet.create({
     logo: {
-        marginTop: 60,
+        marginTop: 20,
         alignItems: 'center',
         marginBottom: 10,
         width: 200,
@@ -110,7 +106,7 @@ const styles = StyleSheet.create({
     },
     button: {
         marginTop: 20,
-        backgroundColor: '#322C2B',
+        backgroundColor: '#777F47',
         width: 160,
         height: 40,
         fontWeight: '900',
@@ -120,38 +116,41 @@ const styles = StyleSheet.create({
         marginVertical: 7,
         textAlign: 'center',
         alignItems: 'center',
-        color: '#FFF',
+        color: 'black',
         fontWeight: '600',
         fontSize: 16
     },
     buttonText2: {
         marginVertical: 10,
         textAlign: 'center',
-        color: '#000',
+        color: '#777F47',
         fontWeight: '600',
         fontSize: 16,
+        marginLeft: 210,
+        marginTop:20
     },
     textRegistro: {
         color: '#322C2B',
         fontWeight: '700',
         fontSize: 14,
-        marginBottom: 5,
-    },
-    cuadroTextoP: {
-        backgroundColor: '#543F3F',
-        borderRadius: 50,
-        width: '100%',
-        height: 33,
-        paddingHorizontal: 10,
-        color: '#FFF',
+        marginBottom: 2,
     },
     cuadroTextoG: {
-        backgroundColor: '#543F3F',
+        backgroundColor: 'white',
         borderRadius: 50,
         width: '100%',
         height: 33,
         paddingHorizontal: 10,
         color: '#FFF',
         marginBottom: 10,
+        marginTop:10,
+        borderColor:' #777F47',
     },
+    textBienvenida: {
+        color: '#777F47',
+        fontWeight: '700',
+        fontSize: 20,
+        marginBottom: 5,
+        marginTop: 20,
+    }
 });
