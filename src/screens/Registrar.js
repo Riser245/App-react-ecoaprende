@@ -3,8 +3,13 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from 'reac
 import { useState } from 'react';
 import Toast from 'react-native-toast-message';
 import { ScrollView } from 'react-native';
+import * as Api from '../utils/Api';
 
 export default function Registrar({ navigation }) {
+
+    const irInicio = async () => {
+        navigation.navigate('IniciarSesion');
+    };
 
     // Constantes para validar.
     const [nombre, setNombre] = useState('');
@@ -12,31 +17,53 @@ export default function Registrar({ navigation }) {
     const [clave, setClave] = useState('');
     const [correo, setCorreo] = useState('');
     const [dui, setDui] = useState('');
+    const ip = Api.IP;
 
-    // Navegación entre pantallas y validación de la pantalla.
-    const irInicioCreado = async () => {
-        if (!nombre || !correo || !clave || !telefono || !dui) {
-            Toast.show({
-                type: 'error',
-                text1: 'Faltan datos',
-                text2: 'Por favor, complete todos los campos.',
+
+    const handleCreate = async () => {
+        try {
+
+            if (!nombre.trim() || !correo.trim() || !clave.trim() || !telefono.trim() || !dui.trim()) {
+                Toast.show({
+                    type: 'error',
+                    text1: 'Faltan datos',
+                    text2: 'Por favor, complete todos los campos.',
+                });
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('nombreUsuario', nombre);
+            formData.append('telefonoUsuario', telefono);
+            formData.append('claveUsuario', clave);
+            formData.append('correoUsuario', correo);
+            formData.append('duiUsuario', dui);
+s
+            const response = await fetch(`${ip}/ecoaprende/api/servicios/cliente/clientes.php?action=ingresoMovil`, {
+                method: 'POST',
+                body: formData
             });
-            return;
+
+            const data = await response.json();
+            if (data.status) {
+                Alert.alert('Datos Guardados correctamente');
+                navigation.navigate('IniciarSesion');
+            } else {
+                Alert.alert('Error', data.error);
+            }
+        } catch (error) {
+            Alert.alert('Ocurrió un error al intentar crear el usuario');
         }
-        navigation.navigate('IniciarSesion');
     };
 
-    const irInicio = async () => {
-        navigation.navigate('IniciarSesion');
-    };
 
     return (
         <ScrollView>
             <View style={styles.container}>
 
-            <Text style={styles.textBienvenida}>¡Bienvenido a EcoAprende!</Text>
-            <Text style={styles.textRegistro}>Registra tú usuario para que</Text>
-            <Text style={styles.textRegistro}>disfrutes de nuestra aplicación.</Text>
+                <Text style={styles.textBienvenida}>¡Bienvenido a EcoAprende!</Text>
+                <Text style={styles.textRegistro}>Registra tú usuario para que</Text>
+                <Text style={styles.textRegistro}>disfrutes de nuestra aplicación.</Text>
                 <Image
                     source={require('../img/registrar.png')}
                     style={styles.logo}
@@ -67,7 +94,8 @@ export default function Registrar({ navigation }) {
                     </View>
                 </View>
                 <View style={styles.container2}>
-                    <TouchableOpacity onPress={irInicioCreado} style={styles.button}>
+                    <TouchableOpacity accionBoton={handleCreate}
+                        onPress={irInicio} style={styles.button}>
                         <Text style={styles.buttonText}>Registrarse</Text>
                     </TouchableOpacity>
                     <Text onPress={irInicio} style={styles.buttonText2}> Regresar al login</Text>
@@ -127,7 +155,7 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         fontSize: 16,
         marginLeft: 210,
-        marginTop:20
+        marginTop: 20
     },
     textRegistro: {
         color: '#322C2B',
@@ -141,16 +169,16 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 33,
         paddingHorizontal: 10,
-        color: '#FFF',
+        color: 'black',
         marginBottom: 10,
-        marginTop:10,
-        borderColor:' #777F47',
+        marginTop: 10,
+        borderColor: ' #777F47',
     },
     textBienvenida: {
         color: '#777F47',
         fontWeight: '700',
         fontSize: 20,
         marginBottom: 5,
-        marginTop: 20,
+        marginTop: 50,
     }
 });
