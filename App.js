@@ -22,7 +22,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="Registrar">
+            <Stack.Navigator initialRouteName="Inicio">
                 <Stack.Screen
                     name="Index"
                     component={Index}
