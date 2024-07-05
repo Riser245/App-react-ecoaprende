@@ -1,7 +1,7 @@
 // Importar Dependencias.
 import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 const Inicio = ({ navigation }) => {
