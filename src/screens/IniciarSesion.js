@@ -17,6 +17,10 @@ export default function IniciarSesion({ navigation }) {
     navigation.navigate("Inicio");
   };
 
+    const irRegistro = async () => {
+      navigation.navigate("Registrar");
+    };
+
   return (
     <ScrollView>
       <ImageBackground
@@ -52,7 +56,7 @@ export default function IniciarSesion({ navigation }) {
             <TouchableOpacity onPress={irMenu} style={styles.button}>
               <Text style={styles.buttonText}>Iniciar sesión</Text>
             </TouchableOpacity>
-            <Text onPress={irMenu} style={styles.buttonText2}>
+            <Text onPress={irRegistro} style={styles.buttonText2}>
               {" "}
               ¿No tienes cuenta aún? Inicia aquí{" "}
             </Text>
