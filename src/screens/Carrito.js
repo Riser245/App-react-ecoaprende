@@ -21,14 +21,18 @@ const Carrito = () => {
     return (
         <ScrollView contentContainerStyle={styles.scrollContainer}>
             <View style={styles.container}>
-                <Text style={styles.headerText}>Productos en el Carrito</Text>
+                <View style={styles.container2}>
+                    <Text style={styles.headerText}>Carrito de compras</Text>
+                </View>
+                <Text style={styles.subheaderText}>Productos listos para ser adquiridos</Text>
+                <View style={styles.middle} />
                 <View style={styles.productContainer}>
                     <View style={styles.productCard}>
-                        <Image source={require('../img/baguette.png')} style={styles.imagenProducto} />
+                        <Image source={require('../img/libros.png')} style={styles.imagenProducto} />
                         <View style={styles.productDetails}>
-                            <Text style={styles.productTitle}>Baguette</Text>
-                            <Text style={styles.productSubtitle}>15 cm</Text>
-                            <Text style={styles.productPrice}>$ 1.82</Text>
+                            <Text style={styles.productTitle}>Libro 1</Text>
+                            <Text style={styles.productSubtitle}>Precio:$20</Text>
+                            <Text style={styles.productPrice}>Cantidad a comprar:2</Text>
                             <View style={styles.quantityContainer}>
                                 <TouchableOpacity style={styles.minusButton}>
                                     <FontAwesome name="minus" size={24} color="white" />
@@ -41,11 +45,11 @@ const Carrito = () => {
                         </View>
                     </View>
                     <View style={styles.productCard}>
-                        <Image source={require('../img/pan_sportif.jpg')} style={styles.imagenProducto} />
+                        <Image source={require('../img/libros.png')} style={styles.imagenProducto} />
                         <View style={styles.productDetails}>
-                            <Text style={styles.productTitle}>Pan Sportif</Text>
-                            <Text style={styles.productSubtitle}>15 cm</Text>
-                            <Text style={styles.productPrice}>$ 3.40</Text>
+                            <Text style={styles.productTitle}>Libro 2</Text>
+                            <Text style={styles.productSubtitle}>Precio:$20</Text>
+                            <Text style={styles.productPrice}>Cantidad a comprar:2</Text>
                             <View style={styles.quantityContainer}>
                                 <TouchableOpacity style={styles.minusButton}>
                                     <FontAwesome name="minus" size={24} color="white" />
@@ -58,23 +62,24 @@ const Carrito = () => {
                         </View>
                     </View>
                 </View>
-                <TouchableOpacity style={styles.addMoreButton} onPress={irInicio}>
-                    <Text style={styles.addMoreText}>Añadir más productos al carrito</Text>
-                </TouchableOpacity>
 
                 <View style={styles.priceContainer}>
                     <View style={styles.priceRow}>
                         <Text style={styles.priceLabel}>Subtotal:</Text>
-                        <Text style={styles.priceValue}>$ 4.22</Text>
+                        <Text style={styles.priceValue}>$ 40.00</Text>
                     </View>
                     <View style={styles.priceRow}>
                         <Text style={styles.priceLabel}>Total:</Text>
-                        <Text style={styles.priceValue}>$ 4.22</Text>
+                        <Text style={styles.priceValue}>$ 40.00</Text>
                     </View>
                 </View>
 
                 <TouchableOpacity style={styles.confirmButton} onPress={irOrdenes}>
-                    <Text style={styles.confirmButtonText}>Realizar y Confirmar el Pedido</Text>
+                    <Text style={styles.confirmButtonText}>Comprar</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.addMoreButton} onPress={irInicio}>
+                    <Text style={styles.addMoreText}>Continuar comprando</Text>
                 </TouchableOpacity>
             </View>
         </ScrollView>
@@ -94,14 +99,38 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 20,
     },
+    container2: {
+        backgroundColor: '#777F47',
+        flex: 1,
+        alignItems: 'center',
+        padding: 5,
+        marginBottom: 20,
+        width: '120%'
+    },
+    middle: {
+        flex: 0.3,
+        backgroundColor: 'black',
+        borderWidth: 2,
+        marginTop:20,
+        marginBottom:20,
+        
+      },
     headerText: {
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 20,
-        color: '#FF6347',
+        color: 'white',
+        backgroundColor: '#777F47',
+    },
+    subheaderText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#777F47',
+        width:200,
+        textAlign:'center',
     },
     productContainer: {
-        width: '100%',
+        width: '110%',
     },
     productCard: {
         flexDirection: 'row',
@@ -117,9 +146,9 @@ const styles = StyleSheet.create({
         elevation: 3,
     },
     imagenProducto: {
-        width: 80,
-        height: 80,
-        borderRadius: 10,
+        width: 100,
+        height: 100,
+        borderRadius: 0,
     },
     productDetails: {
         flex: 1,
@@ -131,11 +160,11 @@ const styles = StyleSheet.create({
     },
     productSubtitle: {
         fontSize: 14,
-        color: '#777',
+        color: 'black',
     },
     productPrice: {
         fontSize: 16,
-        color: '#FF6347',
+        color: 'black',
         marginBottom: 10,
     },
     quantityContainer: {
@@ -143,7 +172,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     plusButton: {
-        backgroundColor: '#5EC401',
+        backgroundColor: '#777F47',
         borderRadius: 5,
         padding: 5,
         marginHorizontal: 5,
@@ -159,12 +188,12 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     addMoreButton: {
-        backgroundColor: '#7FE5BA',
-        padding: 10,
-        borderRadius: 5,
-        marginVertical: 20,
+        backgroundColor: '#777F47',
+        padding: 15,
+        borderRadius: 15,
         width: '100%',
         alignItems: 'center',
+        marginTop:10
     },
     addMoreText: {
         color: 'black',
@@ -198,17 +227,17 @@ const styles = StyleSheet.create({
     priceValue: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: '#FF6347',
+        color: '#777F47',
     },
     confirmButton: {
-        backgroundColor: '#654948',
+        backgroundColor: '#777F47',
         padding: 15,
-        borderRadius: 5,
+        borderRadius: 15,
         width: '100%',
         alignItems: 'center',
     },
     confirmButtonText: {
-        color: 'white',
+        color: 'black',
         fontWeight: 'bold',
         fontSize: 16,
     },

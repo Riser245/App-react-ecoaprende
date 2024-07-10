@@ -8,7 +8,6 @@ import {
   Image,
   ImageBackground,
 } from "react-native";
-import back from "../img/back.png";
 import { useState } from "react";
 import { ScrollView } from "react-native";
 
@@ -23,10 +22,7 @@ export default function IniciarSesion({ navigation }) {
 
   return (
     <ScrollView>
-      <ImageBackground
-        source={require("../img/back.png")}
-        style={styles.background}
-      >
+    
         <View style={styles.container}>
           <Image source={require("../img/login.png")} style={styles.logo} />
 
@@ -62,7 +58,6 @@ export default function IniciarSesion({ navigation }) {
             </Text>
           </View>
         </View>
-      </ImageBackground>
     </ScrollView>
   );
 }
@@ -72,7 +67,6 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     justifyContent: "center",
-    
   },
   logo: {
     marginTop: 100,
@@ -140,14 +134,15 @@ const styles = StyleSheet.create({
   },
   cuadroTextoG: {
     backgroundColor: "white",
-    borderRadius: 50,
+    borderRadius: 10,
     width: "100%",
-    height: 33,
+    height: 43,
     paddingHorizontal: 10,
     color: "black",
     marginBottom: 10,
     marginTop: 10,
     borderColor: " #777F47",
+    borderWidth:2
   },
   textBienvenida: {
     color: "#777F47",
