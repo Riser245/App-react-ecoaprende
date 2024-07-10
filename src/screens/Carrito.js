@@ -65,10 +65,6 @@ const Carrito = () => {
 
                 <View style={styles.priceContainer}>
                     <View style={styles.priceRow}>
-                        <Text style={styles.priceLabel}>Subtotal:</Text>
-                        <Text style={styles.priceValue}>$ 40.00</Text>
-                    </View>
-                    <View style={styles.priceRow}>
                         <Text style={styles.priceLabel}>Total:</Text>
                         <Text style={styles.priceValue}>$ 40.00</Text>
                     </View>

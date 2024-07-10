@@ -8,6 +8,7 @@ import IniciarSesion from './src/screens/IniciarSesion';
 import Registrar from './src/screens/Registrar';
 import Inicio from './src/screens/Inicio';
 import Carrito from './src/screens/Carrito';
+import Dashboard from './src/screens/Dashboard';
 import Ordenes from './src/screens/Ordenes';
 import Cuenta from './src/screens/Cuenta';
 import Notificaciones from './src/screens/Notificaciones';
@@ -22,7 +23,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="IniciarSesion">
+            <Stack.Navigator initialRouteName="Dashboard">
                 <Stack.Screen
                     name="Index"
                     component={Index}
@@ -66,6 +67,11 @@ export default function App() {
                 <Stack.Screen
                     name="Recup2"
                     component={Recup2}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="Dashboard"
+                    component={Dashboard}
                     options={{ headerShown: false }}
                 />
                 <Stack.Screen
