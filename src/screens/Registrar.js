@@ -70,27 +70,27 @@ s
                 />
                 <View style={styles.rowContainer}>
                     <View style={styles.inputContainer}>
-                        <TextInput placeholder='Nombre' style={styles.cuadroTextoG} value={nombre} onChangeText={setNombre} />
+                        <TextInput placeholder='Nombre:' style={styles.cuadroTextoG} value={nombre} onChangeText={setNombre} />
                     </View>
                 </View>
                 <View style={styles.rowContainer}>
                     <View style={styles.inputContainer}>
-                        <TextInput placeholder='Correo electronico' style={styles.cuadroTextoG} value={correo} onChangeText={setCorreo} keyboardType="email-address" />
+                        <TextInput placeholder='Correo electrónico:' style={styles.cuadroTextoG} value={correo} onChangeText={setCorreo} keyboardType="email-address" />
                     </View>
                 </View>
                 <View style={styles.rowContainer}>
                     <View style={styles.inputContainer}>
-                        <TextInput placeholder='Clave' style={styles.cuadroTextoG} value={clave} onChangeText={setClave} secureTextEntry />
+                        <TextInput placeholder='Clave:' style={styles.cuadroTextoG} value={clave} onChangeText={setClave} secureTextEntry />
                     </View>
                 </View>
                 <View style={styles.rowContainer}>
                     <View style={styles.inputContainer}>
-                        <TextInput placeholder='Telefono cliente' style={styles.cuadroTextoG} value={telefono} onChangeText={setTelefono} keyboardType="email-address" />
+                        <TextInput placeholder='Telefono cliente:' style={styles.cuadroTextoG} value={telefono} onChangeText={setTelefono} keyboardType="email-address" />
                     </View>
                 </View>
                 <View style={styles.rowContainer}>
                     <View style={styles.inputContainer}>
-                        <TextInput placeholder='DUI' style={styles.cuadroTextoG} value={dui} onChangeText={setDui} />
+                        <TextInput placeholder='DUI:' style={styles.cuadroTextoG} value={dui} onChangeText={setDui} />
                     </View>
                 </View>
                 <View style={styles.container2}>

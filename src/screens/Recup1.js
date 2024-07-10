@@ -5,61 +5,32 @@ import { useState } from 'react';
 
 export default function Recup1({ navigation }) {
 
-    // Constantes para validar.
-    const [email, setEmail] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
-
     // Navegación entre pantallas.
     const irInicio = () => {
         navigation.navigate('InicioSesion');
     };
 
-    // Validación de la pantalla.
-    const irRecup2 = () => {
-        if (!validateEmail(email)) {
-            setErrorMessage('Por favor, ingrese un correo electrónico válido.');
-            return;
-        }
-        setErrorMessage('');
-        navigation.navigate('Recup2');
-    };
-
-    const validateEmail = (email) => {
-        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return re.test(email);
-    };
-
     return (
         <View style={styles.container}>
-            <Text> ¿Olvidaste tú clave? </Text>
+            <Text style={styles.titulo}> ¿Olvidaste tú clave? </Text>
             <Image
                 source={require('../img/imagen_recup1.png')} // Ruta de la imagen dentro de la carpeta de activos
                 style={styles.image}
             />
-            <Text> Ingresa el correo electrónico, con el cuál te registraste. </Text>
-            <View style={styles.container2}>
-                <Text style={styles.texto}>Correo</Text>
-                <View style={styles.container3}>
-                    <TextInput
-                        style={styles.input}
-                        value={email}
-                        onChangeText={setEmail}
-                        keyboardType="email-address"
-                        autoCapitalize="none"
-                    />
-                </View>
-
-                <View style={styles.container4}>
-                    <TouchableOpacity onPress={irInicio} style={styles.button}>
-                        <Text style={styles.textIniciar}>Cancelar</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={irRecup2} style={styles.button}>
-                        <Text style={styles.textIniciar}>Continuar</Text>
-                    </TouchableOpacity>
-                </View>
+            <Text style={styles.textoInformativo}> Ingresa el correo electrónico, con el cuál te registraste. </Text>
+            <View style={styles.inputContainer}>
+                <TextInput
+                    placeholder="Correo electrónico:"
+                    placeholderTextColor={"#000"}
+                    style={styles.cuadroTextoG}
+                    keyboardType="email-address" />
             </View>
-            <StatusBar style="auto" />
-        </View>
+            <View style={styles.container2}>
+                <TouchableOpacity style={styles.button}>
+                    <Text style={styles.buttonText}> Recuperar </Text>
+                </TouchableOpacity>
+            </View>
+        </View >
     );
 }
 
@@ -72,51 +43,60 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
     },
     container2: {
-        backgroundColor: '#312323',
-        width: 308,
-        height: 300,
-        borderRadius: 20,
-        padding: 20,
-        alignItems: 'center',
+        alignItems: "center",
     },
-    container3: {
-        width: '100%',
-        alignItems: 'center',
+    inputContainer: {
+        alignItems: "center",
     },
-    container4: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        marginTop: 20,
-        width: '100%',
+    cuadroTextoG: {
+        backgroundColor: "white",
+        borderRadius: 10,
+        width: 300,
+        height: 43,
+        paddingHorizontal: 10,
+        color: "black",
+        marginBottom: 10,
+        marginTop: 10,
+        borderColor: " #777F47",
+        borderWidth: 2
     },
     button: {
-        borderWidth: 2,
-        borderColor: '#FFF',
-        width: 120,
+        marginTop: 20,
+        backgroundColor: "#777F47",
+        width: 160,
+        height: 40,
+        fontWeight: "900",
         borderRadius: 50,
-        backgroundColor: '#FFF',
-        paddingVertical: 10,
-        alignItems: 'center',
     },
-    texto: {
-        marginVertical: 5,
-        color: '#FFFFFF',
-        fontWeight: '600',
+    buttonText: {
+        marginVertical: 7,
+        textAlign: "center",
+        alignItems: "center",
+        color: "black",
+        fontWeight: "600",
         fontSize: 16,
     },
-    textIniciar: {
+    titulo: {
         color: '#322C2B',
-        fontWeight: '700',
-        fontSize: 18,
+        fontWeight: '500',
+        fontSize: 20,
     },
-    image: {
-        width: 150,
-        height: 150,
+    textoInformativo: {
+        marginHorizontal: 50,
+        textAlign: 'center',
+        color: '#322C2B',
+        fontWeight: '400',
+        fontSize: 18,
         marginBottom: 20,
     },
+    image: {
+        width: 175,
+        height: 175,
+        marginBottom: 30,
+    },
     input: {
-        backgroundColor: '#FFFFFF',
-        color: '#000',
+        backgroundColor: '#777F47',
+        color: '#777F47',
         width: '100%',
         height: 40,
         borderRadius: 50,
