@@ -14,7 +14,7 @@ import { ScrollView } from "react-native";
 export default function IniciarSesion({ navigation }) {
 
     const irMenu = async () => {
-        navigation.navigate("Inicio");
+        navigation.navigate("NavBottom");
     };
 
     const irRecuperacion = async () => {
@@ -37,7 +37,7 @@ export default function IniciarSesion({ navigation }) {
                 <View style={styles.rowContainer}>
                     <View style={styles.inputContainer}>
                         <TextInput
-                            placeholder="Correo electronico:"
+                            placeholder="Correo electrónico:"
                             placeholderTextColor={"#000"}
                             style={styles.cuadroTextoG}
                             keyboardType="email-address" />
