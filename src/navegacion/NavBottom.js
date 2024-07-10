@@ -23,7 +23,7 @@ function CustomTabBarIcon({ name, size, color, focused }) {
                         width: size * 1.6,
                         height: size * 1.6,
                         borderRadius: size * 0.8,
-                        backgroundColor: 'rgba(255, 99, 71, 0.2)', // Color de fondo del círculo
+                        backgroundColor: '#3C4E0B', // Color de fondo del círculo
                         alignItems: 'center',
                         justifyContent: 'center',
                     }}
@@ -60,7 +60,7 @@ function TabNavigator({ navigation }) {
             </View>
             {['Panaderia Hernández'].includes(headerContent) && (
               <TouchableOpacity onPress={() => navigation.navigate('Notificaciones')}>
-                <Ionicons name="notifications-outline" size={30} color="black" style={styles.notificationIcon} />
+                <Ionicons name="notifications-outline" size={30} color="white" style={styles.notificationIcon} />
               </TouchableOpacity>
             )}
           </View>
@@ -92,10 +92,10 @@ function TabNavigator({ navigation }) {
 
                             return <CustomTabBarIcon name={iconName} size={size} color={color} focused={focused} />;
                         },
-                        tabBarActiveTintColor: 'black',
-                        tabBarInactiveTintColor: 'black',
+                        tabBarActiveTintColor: 'gray',
+                        tabBarInactiveTintColor: 'white',
                         tabBarStyle: {
-                            backgroundColor: '#FFFFFF',
+                            backgroundColor: '#3C4E0B',
                         },
                         tabBarShowLabel: false,
                     })}
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
       },
       topContainer: {
         height: 80,
-        backgroundColor: '#FFC0CB',
+        backgroundColor: '#3C4E0B',
         paddingLeft: 16,
         justifyContent: 'center',
       },

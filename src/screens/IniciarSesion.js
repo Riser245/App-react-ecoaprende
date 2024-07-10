@@ -14,7 +14,7 @@ import { ScrollView } from "react-native";
 export default function IniciarSesion({ navigation }) {
 
     const irMenu = async () => {
-        navigation.navigate("Inicio");
+        navigation.navigate("NavBottom");
     };
 
     const irRecuperacion = async () => {
