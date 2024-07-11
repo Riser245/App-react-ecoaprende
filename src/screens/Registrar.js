@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from 'reac
 import { useState } from 'react';
 import Toast from 'react-native-toast-message';
 import { ScrollView } from 'react-native';
-import * as Api from '../utils/Api';
 
 export default function Registrar({ navigation }) {
 
