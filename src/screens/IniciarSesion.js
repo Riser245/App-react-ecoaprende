@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
         fontWeight: "600",
         fontSize: 14,
         marginTop: 10,
-        marginLeft: 240,
+        marginLeft: 220,
     },
     textLogin: {
         color: "#322C2B",
@@ -151,11 +151,10 @@ const styles = StyleSheet.create({
         color: "black",
         marginBottom: 10,
         marginTop: 10,
-        borderColor: " #777F47",
+        borderColor: "black",
         borderWidth: 2
     },
     textBienvenida: {
-        color: "#777F47",
         fontWeight: "700",
         fontSize: 20,
         marginBottom: 5,
