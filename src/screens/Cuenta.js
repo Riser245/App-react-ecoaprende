@@ -86,12 +86,8 @@ export default function Cuenta({ navigation }) {
                         <Text style={styles.label}>Clave</Text>
                         <TextInput style={styles.inputValue2} placeholder='********'></TextInput>
                     </View>
-
-                    <TouchableOpacity onPress={() => setCurrentScreen('Screen2')} style={[styles.button, styles.editButton]}>
-                        <Text style={styles.buttonText}>Editar perfil</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => setCurrentScreen('Screen3')} style={[styles.button, styles.changePasswordButton]}>
-                        <Text style={styles.buttonText}>Cambiar contraseña</Text>
+                    <TouchableOpacity style={[styles.button, styles.editButton]}>
+                        <Text style={styles.buttonText}>Editar datos</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={(irInicio)}
                         style={[styles.button, styles.logoutButton]}>
@@ -259,21 +255,10 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         marginRight: 100,
     },
-    buttonContainer: {
-        width: '80%',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginBottom: 20,
-    },
-    buttonContainer2: {
-        width: '80%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginLeft: 50,
-    },
     button: {
         flex: 1,
         paddingVertical: 10,
+        marginVertical: 1,
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 20,
@@ -286,23 +271,17 @@ const styles = StyleSheet.create({
         color: 'black',
     },
     editButton: {
-        backgroundColor: '#87CEEB',
-        borderWidth: 2,
-        borderColor: 'white',
-        marginRight: 10,
-    },
-    changePasswordButton: {
-        backgroundColor: '#98FB98',
-        borderWidth: 2,
-        borderColor: '#98FB98',
-        marginRight: 10,
-    },
-    logoutButton: {
-        alignItems: 'center',
-        backgroundColor: '#F08080',
+        marginHorizontal: 59,
+        backgroundColor: '#777F47',
         borderWidth: 2,
         width: 200,
-        borderColor: '#F08080',
+        borderColor: 'white',
+        alignItems: 'center',
+    },
+    logoutButton: {
+        marginHorizontal: 59,
+        alignItems: 'center',
+        width: 200,
     },
     buttonGuardar: {
         backgroundColor: '#98FB98',
