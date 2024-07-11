@@ -1,4 +1,4 @@
-import * as Constants from './Constants'
+import * as Constants from './contants'
 // Función que maneja las peticiones fetch
 export default async function fetchData(filename, action, form = null) {
     // URL base del servidor
