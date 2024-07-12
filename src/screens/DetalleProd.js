@@ -140,19 +140,20 @@ const styles = StyleSheet.create({
         width: 200,
         paddingVertical: 10,
         paddingHorizontal: 20,
-        borderRadius: 50,
-        marginTop:20
+        borderRadius: 10,
+        marginTop:25,
+        marginLeft:150
     },
     botonCarrito2: {
         textAlign: 'center',
         backgroundColor: '#777F47',
-        width: 200,
+        width: 120,
         paddingVertical: 10,
         paddingHorizontal: 20,
-        borderRadius: 50,
-        marginTop:20,
+        borderRadius: 10,
+        marginTop:3,
         marginBottom:40,
-        marginRight:150
+        marginRight:240
     },
     textoBoton: {
         textAlign: 'center',

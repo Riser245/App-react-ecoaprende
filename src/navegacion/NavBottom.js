@@ -58,7 +58,7 @@ function TabNavigator({ navigation }) {
                 {headerContent2}
               </Text>
             </View>
-            {['Panaderia Hernández'].includes(headerContent) && (
+            {['Ecoaprende'].includes(headerContent) && (
               <TouchableOpacity onPress={() => navigation.navigate('Notificaciones')}>
                 <Ionicons name="notifications-outline" size={30} color="white" style={styles.notificationIcon} />
               </TouchableOpacity>
@@ -103,15 +103,15 @@ function TabNavigator({ navigation }) {
                         state: (e) => {
                             switch (route.name) {
                                 case 'Inicio':
-                                    setHeaderContent('Panaderia Hernández');
+                                    setHeaderContent('Ecoaprende');
                                     setHeaderContent2('Bienvenido');
                                     break;
                                 case 'Carrito':
-                                    setHeaderContent('Panaderia Hernández');
+                                    setHeaderContent('Ecoaprende');
                                     setHeaderContent2('Mi carrito');
                                     break;
                                 case 'Ordenes':
-                                    setHeaderContent('Panaderia Hernández');
+                                    setHeaderContent('Ecoaprende');
                                     setHeaderContent2('Ordenes');
                                     break;
                                 case 'Cuenta':

@@ -23,7 +23,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="IniciarSesion">
+            <Stack.Navigator initialRouteName="Inicio">
                 <Stack.Screen
                     name="Index"
                     component={Index}
@@ -42,7 +42,17 @@ export default function App() {
                 <Stack.Screen
                     name="Inicio"
                     component={Inicio}
-                    options={{ headerShown: false }}
+                    options={{
+                        headerShown: true,
+                        title: 'Dashboard',
+                        headerStyle: {
+                            backgroundColor: '#3C4E0B',
+                            textAlign:'center',
+                            title: 'Aligned Center',
+                            headerTitleAlign: 'center'
+                        },
+                        headerTintColor: 'white',
+                    }}
                 />
                 <Stack.Screen
                     name="Carrito"

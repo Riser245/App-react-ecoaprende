@@ -1,209 +1,99 @@
 // Importar Dependencias.
-import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
-import { ScrollView } from 'react-native';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import React from 'react';
+import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { Card, Button } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
 
-const Inicio = ({ navigation }) => {
 
-    const [currentScreen, setCurrentScreen] = useState('Screen1');
+const Carrito = () => {
 
-    // Navegación entre pantallas.
-    const irDetalle = async () => {
-        navigation.navigate('DetalleProd');
+    const navigation = useNavigation();
+
+    // Metodos de navegación.
+    const irInicio = async () => {
+        navigation.navigate('Inicio')
     };
 
-    const renderScreen = () => {
-        if (currentScreen === 'Screen1') {
-            // Pantalla 1.
-            return (
-                <View style={styles.container}>
-                    <View style={styles.containerBuscador}>
-                        <TouchableOpacity style={styles.minicontainerBuscador}>
-                            <Ionicons name="search-outline" size={24} color="black" />
-                            <TextInput style={styles.buscador} placeholder='Busca Productos'></TextInput>
-                        </TouchableOpacity>
-                    </View>
-
-                    <View style={styles.productosContainer}>
-                        <View style={styles.containerProducto}>
-                            <TouchableOpacity style={styles.minicontainerProducto} onPress={() => setCurrentScreen('Screen2')}>
-                                <Image source={require('../img/pan_frances.png')} style={styles.imagenProducto} />
-                                <Text style={styles.productText}>Pan Francés</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.containerProducto}>
-                            <TouchableOpacity style={styles.minicontainerProducto}>
-                                <Image source={require('../img/pan_dulce.png')} style={styles.imagenProducto} />
-                                <Text style={styles.productText}>Pan Dulce</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.containerProducto}>
-                            <TouchableOpacity style={styles.minicontainerProducto}>
-                                <Image source={require('../img/pasteles.png')} style={styles.imagenProducto} />
-                                <Text style={styles.productText}>Pasteles</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.containerProducto}>
-                            <TouchableOpacity style={styles.minicontainerProducto}>
-                                <Image source={require('../img/reposteria.png')} style={styles.imagenProducto} />
-                                <Text style={styles.productText}>Repostería</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.containerProducto}>
-                            <TouchableOpacity style={styles.minicontainerProducto}>
-                                <Image source={require('../img/bebidas.png')} style={styles.imagenProducto} />
-                                <Text style={styles.productText}>Bebidas</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </View>
-            );
-        } else {
-            // Pantalla 2.
-            return (
-                <View style={styles.container}>
-                    <View style={styles.containerBuscador}>
-                        <TouchableOpacity style={styles.minicontainerBuscador}>
-                            <Ionicons name="search-outline" size={24} color="black" />
-                            <TextInput style={styles.buscador} placeholder='Busca Productos'></TextInput>
-                        </TouchableOpacity>
-                    </View>
-
-                    <View style={styles.productosContainer}>
-                        <View style={styles.containerProducto}>
-                            <TouchableOpacity style={styles.minicontainerProducto} onPress={irDetalle}>
-                                <Image source={require('../img/baguette.png')} style={styles.imagenProducto} />
-                                <Text style={styles.productText}>Baguette </Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.containerProducto}>
-                            <TouchableOpacity style={styles.minicontainerProducto}>
-                                <Image source={require('../img/boule.png')} style={styles.imagenProducto} />
-                                <Text style={styles.productText}>Boule </Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.containerProducto}>
-                            <TouchableOpacity style={styles.minicontainerProducto}>
-                                <Image source={require('../img/bretzel.png')} style={styles.imagenProducto} />
-                                <Text style={styles.productText}>Bretzel</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.containerProducto}>
-                            <TouchableOpacity style={styles.minicontainerProducto}>
-                                <Image source={require('../img/brioche.png')} style={styles.imagenProducto} />
-                                <Text style={styles.productText}>Brioche</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.containerProducto}>
-                            <TouchableOpacity style={styles.minicontainerProducto}>
-                                <Image source={require('../img/kuaso.png')} style={styles.imagenProducto} />
-                                <Text style={styles.productText}>Cruasán</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.containerProducto}>
-                            <TouchableOpacity style={styles.minicontainerProducto}>
-                                <Image source={require('../img/pan_sportif.jpg')} style={styles.imagenProducto} />
-                                <Text style={styles.productText}>Pan Sportif</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.containerRegresar}>
-                            <TouchableOpacity onPress={() => setCurrentScreen('Screen1')} style={styles.buttonRegresar}>
-                                <Text style={styles.buttonTextRegresar}> Regresar </Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </View>
-            );
-        }
+    const irOrdenes = async () => {
+        navigation.navigate('Ordenes')
     };
 
     return (
-        <ScrollView>
-            {renderScreen()}
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+            <View style={styles.container}>
+                <Text style={styles.subheaderText}>Categorías para lo que busques</Text>
+
+
+                <Card style={styles.card}>
+                    <Card.Content>
+                        <Card.Cover style={styles.img} source={require('../img/libros.png')} />
+                        <Text style={styles.textoTitulo} variant="titleLarge">Medicina</Text>
+                    </Card.Content>
+                </Card>
+
+                <Card style={styles.card}>
+                    <Card.Content>
+                        <Card.Cover style={styles.img} source={require('../img/libros.png')} />
+                        <Text style={styles.textoTitulo} variant="titleLarge">Literatura</Text>
+                    </Card.Content>
+                </Card>
+
+                <Card style={styles.card}>
+                    <Card.Content>
+                        <Card.Cover style={styles.img} source={require('../img/libros.png')} />
+                        <Text style={styles.textoTitulo} variant="titleLarge">Filosofía</Text>
+                    </Card.Content>
+                </Card>
+            </View>
         </ScrollView>
     );
 };
 
 // Diseño de la pantalla.
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 10,
+    card: {
+        backgroundColor: '#777F47',
+        width:'60%',
+        marginTop:20
     },
-    containerBuscador: {
-        backgroundColor: '#C0C0C0',
-        width: '100%',
-        borderRadius: 8,
-        marginBottom: 20,
+    img: {
+        width:'100%',
+        height:100
     },
-    minicontainerBuscador: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: '#C0C0C0',
-        borderRadius: 8,
-        padding: 10,
-    },
-    buscador: {
-        marginLeft: 10,
-        color: 'black',
+    textoTitulo: {
+        color:'white',
+        textAlign:'center',
         fontSize: 16,
+        marginTop:20
+    },
+    container: {
+        backgroundColor: 'white',
         flex: 1,
-    },
-    productosContainer: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'space-between',
-    },
-    containerProducto: {
-        borderRadius: 20,
-        paddingTop: 15,
-        width: '48%',
-        marginBottom: 15,
-        height: 150,
         alignItems: 'center',
-        backgroundColor: 'white'
+        padding: 20,
     },
-    minicontainerProducto: {
-        width: 100,
-        marginBottom: 15,
-        height: 100,
+    container2: {
+        backgroundColor: '#777F47',
+        flex: 1,
         alignItems: 'center',
-        backgroundColor: 'white'
+        padding: 5,
+        marginBottom: 20,
+        width: '120%'
     },
-    imagenProducto: {
-        width: 100,
-        height: 100,
-        borderRadius: 10,
+    headerText: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 20,
+        color: 'white',
+        backgroundColor: '#777F47',
     },
-    productText: {
-        textAlign: 'center',
+    subheaderText: {
         fontSize: 16,
         fontWeight: 'bold',
-    },
-    buttonRegresar: {
+        color: '#777F47',
+        width: 200,
         textAlign: 'center',
-        backgroundColor: '#FFC0CB',
-        justifyContent: 'center',
-        height: 50,
-        borderRadius: 20,
-        borderColor: 'black',
-        borderWidth: 2,
-        width: 120,
     },
-    buttonTextRegresar: {
-        fontSize: 20,
-        color: 'black',
-        fontWeight: '500',
-        textAlign: 'center'
-    },
-    containerRegresar: {
-        textAlign: 'center',
-        marginLeft: 125,
-        width: '10000',
-    }
 });
 
-export default Inicio;
+export default Carrito;
