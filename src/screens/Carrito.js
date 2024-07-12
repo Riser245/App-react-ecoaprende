@@ -21,9 +21,6 @@ const Carrito = () => {
     return (
         <ScrollView contentContainerStyle={styles.scrollContainer}>
             <View style={styles.container}>
-                <View style={styles.container2}>
-                    <Text style={styles.headerText}>Carrito de compras</Text>
-                </View>
                 <Text style={styles.subheaderText}>Productos listos para ser adquiridos</Text>
                 <View style={styles.middle} />
                 <View style={styles.productContainer}>
@@ -94,14 +91,6 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         padding: 20,
-    },
-    container2: {
-        backgroundColor: '#777F47',
-        flex: 1,
-        alignItems: 'center',
-        padding: 5,
-        marginBottom: 20,
-        width: '120%'
     },
     middle: {
         flex: 0.3,

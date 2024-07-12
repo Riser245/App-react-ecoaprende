@@ -16,49 +16,46 @@ const DetalleProd = () => {
     return (
         <ScrollView contentContainerStyle={styles.scrollContainer}>
             <View style={styles.container}>
+            <TouchableOpacity style={styles.botonCarrito2} onPress={irCarrito}>
+                        <Text style={styles.textoBoton2}>
+                            Regresar
+                        </Text>
+                    </TouchableOpacity>
                 <View style={styles.containerImagen}>
                     <Image
-                        source={require('../img/baguette.png')}
+                        source={require('../img/producto.png')}
                         style={styles.imagenProducto}
                     />
                 </View>
                 <View style={styles.productDetails}>
                     <View style={styles.containerProducto}>
                         <Text style={styles.tituloProducto}>
-                            Pan Baguette Integral - 15cm
-                        </Text>
-                        <Text style={styles.precioProducto}>
-                            $ 5.00
+                            EL LIBRO DE LA MEDICINA
+                            THE MEDICINE BOOK.
+                            Autor: DK Big Ideas.
                         </Text>
                     </View>
                     <Text style={styles.textoProducto}>
-                        Pan 100% Artesanal, 0.5 Kg por unidad.
+                        Un recorrido por más de 90 de las ideas, avances e hitos más importantes de la historia médica internacional...
                     </Text>
+                    <View style={styles.containerProducto}>
+                    <Text>
+                        Estado: Usado.
+                    </Text>
+                    </View>
+                    <View style={styles.containerProducto2}>
+                    <Text>
+                        Cantidad disponible:
+                    </Text>
+                    <Text>
+                        Cantidad disponible:
+                    </Text>
+                    </View>
                     <TouchableOpacity style={styles.botonCarrito} onPress={irCarrito}>
                         <Text style={styles.textoBoton}>
                             Agregar al carrito
                         </Text>
                     </TouchableOpacity>
-                </View>
-                <View style={styles.masProductosContainer}>
-                    <Text style={styles.masProductosTitulo}>
-                        Más Productos
-                    </Text>
-                    <View style={styles.productoRelacionado}>
-                        <View style={styles.containerImagen2}>
-                            <Image
-                                source={require('../img/brioche.png')}
-                                style={styles.imagenProducto2}
-                            />
-                        </View>
-                        <View style={styles.productoInfo}>
-                            <Text style={styles.productoRelacionadoTitulo}>Pan Brioche</Text>
-                            <Text style={styles.productoRelacionadoDescripcion}>
-                                Pan suave y esponjoso con textura ligera y su sabor sutil, con mantequilla y
-                                huevos.
-                            </Text>
-                        </View>
-                    </View>
                 </View>
             </View>
         </ScrollView>
@@ -81,7 +78,16 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         flex: 4,
-        alignItems: 'center',
+        alignItems: 'flex-start',
+        marginTop:5,
+        paddingHorizontal: 50,
+    },
+    containerProducto2: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        flex: 4,
+        alignItems: 'flex-start',
+        marginTop:10,
         paddingHorizontal: 50,
     },
     containerImagen: {
@@ -97,16 +103,10 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     imagenProducto: {
-        width: 290,
-        height: 200,
+        width: '50%',
+        height: 250,
         borderRadius: 10,
         marginBottom: 10,
-    },
-    imagenProducto2: {
-        width: 100,
-        height: 100,
-        borderRadius: 10,
-        marginRight: 10,
     },
     productDetails: {
         width: '100%',
@@ -114,35 +114,55 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     tituloProducto: {
-        fontSize: 24,
+        fontSize: 16,
         fontWeight: 'bold',
-        marginBottom: 10,
+        marginTop: 45,
         marginHorizontal: 10,
-        textAlign: 'justify'
+        textAlign: 'center'
     },
     precioProducto: {
         marginLeft: 45,
         fontSize: 30,
         fontWeight: 'bold',
         color: '#5EC401',
-        marginBottom: 30,
+        marginTop: 40,
     },
     textoProducto: {
         fontSize: 16,
-        textAlign: 'center',
+        textAlign: 'left',
         marginBottom: 20,
+        width:300,
+        marginTop:10
     },
     botonCarrito: {
         textAlign: 'center',
-        backgroundColor: '#623431',
+        backgroundColor: '#777F47',
         width: 200,
         paddingVertical: 10,
         paddingHorizontal: 20,
         borderRadius: 50,
+        marginTop:20
+    },
+    botonCarrito2: {
+        textAlign: 'center',
+        backgroundColor: '#777F47',
+        width: 200,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 50,
+        marginTop:20,
+        marginBottom:40,
+        marginRight:150
     },
     textoBoton: {
         textAlign: 'center',
-        color: '#FFF',
+        color: 'black',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    textoBoton2: {
+        textAlign: 'center',
+        color: 'white',
         fontSize: 16,
         fontWeight: 'bold',
     },

@@ -47,7 +47,17 @@ export default function App() {
                 <Stack.Screen
                     name="Carrito"
                     component={Carrito}
-                    options={{ headerShown: false }}
+                    options={{
+                        headerShown: true,
+                        title: 'Carrito de compras',
+                        headerStyle: {
+                            backgroundColor: '#3C4E0B',
+                            textAlign:'center',
+                            title: 'Aligned Center',
+                            headerTitleAlign: 'center'
+                        },
+                        headerTintColor: 'white',
+                    }}
                 />
                 <Stack.Screen
                     name="Ordenes"
@@ -95,11 +105,13 @@ export default function App() {
                     component={DetalleProd}
                     options={{
                         headerShown: true,
-                        title: 'Detalle del Producto',
+                        title: 'Información del libro',
                         headerStyle: {
-                            backgroundColor: '#FFC0CB',
+                            backgroundColor: '#3C4E0B',
+                            title: 'Aligned Center',
+                            headerTitleAlign: 'center'
                         },
-                        headerTintColor: '#000',
+                        headerTintColor: 'white',
                     }}
                 />
             </Stack.Navigator>
