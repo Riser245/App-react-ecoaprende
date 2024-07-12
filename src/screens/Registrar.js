@@ -2,8 +2,7 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, Alert, ScrollView } from 'react-native';
 import { useState } from 'react';
 import Toast from 'react-native-toast-message';
-// Nota: Asegúrate de importar fetchData solo si realmente lo necesitas
-// import fetchData from '../../api/components'; 
+import fetchData from '../../api/components'; 
 
 const RegisterScreen = ({ navigation }) => {
     // Url de la api
@@ -12,9 +11,9 @@ const RegisterScreen = ({ navigation }) => {
     // Constantes para el manejo de datos
     const [nombre, setNombre] = useState("");
     const [correo, setCorreo] = useState("");
-    const [clave, setClave] = useState("");
     const [telefono, setTelefono] = useState("");
     const [dui, setDui] = useState("");
+    const [clave, setClave] = useState("");
 
     // Función para navegar a IniciarSesion
     const irInicio = async () => {
@@ -32,30 +31,42 @@ const RegisterScreen = ({ navigation }) => {
                 });
                 return;
             }
-
+    
             const formData = new FormData();
             formData.append('nombreUsuario', nombre);
             formData.append('telefonoUsuario', telefono);
             formData.append('claveUsuario', clave);
             formData.append('correoUsuario', correo);
             formData.append('duiUsuario', dui);
-
-            const response = await fetch(`${ip}/ecoaprende/api/servicios/cliente/clientes.php?action=ingresoMovil`, {
+    
+            const response = await fetch(`http://10.0.2.2/ecoaprende/api/servicios/cliente/clientes.php?action=ingresoMovil`, {
                 method: 'POST',
                 body: formData
             });
-
-            const data = await response.json();
+    
+            // Imprimir la respuesta para depuración
+            const textResponse = await response.text();
+            console.log('Server response:', textResponse);
+    
+            if (!response.ok) {
+                console.error('Network response was not ok:', response.status, response.statusText);
+                throw new Error('Network response was not ok');
+            }
+    
+            const data = JSON.parse(textResponse);
+    
             if (data.status) {
                 Alert.alert('Datos Guardados correctamente');
                 navigation.navigate('IniciarSesion');
             } else {
-                Alert.alert('Error', data.error);
+                Alert.alert('Error', data.error || 'Unknown error');
             }
         } catch (error) {
-            Alert.alert('Ocurrió un error al intentar crear el usuario');
+            console.error('Error during user creation:', error);
+            Alert.alert('Ocurrió un error al intentar crear el usuario', error.message);
         }
     };
+    
 
     return (
         <ScrollView>
