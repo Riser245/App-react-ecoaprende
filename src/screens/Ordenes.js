@@ -14,15 +14,41 @@ const Ordenes = () => {
                 <View style={styles.containerOP}>
                     <View style={styles.containerOrden}>
                         <View style={styles.iconContainer}>
-                            <Ionicons name="cart" size={24} color="white" />
+                            <Ionicons name="basket" size={24} color="white" />
                         </View>
                         <View style={styles.infoContainer}>
                             <Text style={styles.textOrden}>Orden #4</Text>
                             <Text style={styles.textEstadoP}>Pendiente</Text>
-                            <Text style={styles.textFecha}>26 Octubre</Text>
+                            <Text style={styles.textFecha}>10 de julio</Text>
                         </View>
                         <View style={styles.priceContainer}>
-                            <Text style={styles.textPrecio}>$ 7.00</Text>
+                            <Text style={styles.textPrecio}>$ 20.00</Text>
+                        </View>
+                    </View>
+                    <View style={styles.containerOrden}>
+                        <View style={styles.iconContainer}>
+                            <Ionicons name="basket" size={24} color="white" />
+                        </View>
+                        <View style={styles.infoContainer}>
+                            <Text style={styles.textOrden}>Orden #4</Text>
+                            <Text style={styles.textEstadoP}>Pendiente</Text>
+                            <Text style={styles.textFecha}>10 de julio</Text>
+                        </View>
+                        <View style={styles.priceContainer}>
+                            <Text style={styles.textPrecio}>$ 20.00</Text>
+                        </View>
+                    </View>
+                    <View style={styles.containerOrden}>
+                        <View style={styles.iconContainer}>
+                            <Ionicons name="basket" size={24} color="white" />
+                        </View>
+                        <View style={styles.infoContainer}>
+                            <Text style={styles.textOrden}>Orden #4</Text>
+                            <Text style={styles.textEstadoP}>Pendiente</Text>
+                            <Text style={styles.textFecha}>10 de julio</Text>
+                        </View>
+                        <View style={styles.priceContainer}>
+                            <Text style={styles.textPrecio}>$ 20.00</Text>
                         </View>
                     </View>
                 </View>
@@ -38,36 +64,32 @@ const Ordenes = () => {
                         <View style={styles.infoContainer}>
                             <Text style={styles.textOrden}>Orden #1</Text>
                             <Text style={styles.textEstadoE}>Entregada</Text>
-                            <Text style={styles.textFecha}>1 Octubre</Text>
+                            <Text style={styles.textFecha}>1 de junio</Text>
                         </View>
                         <View style={styles.priceContainer}>
-                            <Text style={styles.textPrecio}>$ 7.00</Text>
+                            <Text style={styles.textPrecio}>$ 10.00</Text>
                         </View>
-                    </View>
-                    <View style={styles.containerOrden}>
                         <View style={styles.iconContainer}>
                             <Ionicons name="cart" size={24} color="white" />
                         </View>
                         <View style={styles.infoContainer}>
-                            <Text style={styles.textOrden}>Orden #2</Text>
-                            <Text style={styles.textEstadoC}>Cancelada</Text>
-                            <Text style={styles.textFecha}>10 Octubre</Text>
-                        </View>
-                        <View style={styles.priceContainer}>
-                            <Text style={styles.textPrecio}>$ 4.52</Text>
-                        </View>
-                    </View>
-                    <View style={styles.containerOrden}>
-                        <View style={styles.iconContainer}>
-                            <Ionicons name="cart" size={24} color="white" />
-                        </View>
-                        <View style={styles.infoContainer}>
-                            <Text style={styles.textOrden}>Orden #3</Text>
+                            <Text style={styles.textOrden}>Orden #1</Text>
                             <Text style={styles.textEstadoE}>Entregada</Text>
-                            <Text style={styles.textFecha}>15 Octubre</Text>
+                            <Text style={styles.textFecha}>1 de junio</Text>
                         </View>
                         <View style={styles.priceContainer}>
-                            <Text style={styles.textPrecio}>$ 2.81</Text>
+                            <Text style={styles.textPrecio}>$ 10.00</Text>
+                        </View>
+                        <View style={styles.iconContainer}>
+                            <Ionicons name="cart" size={24} color="white" />
+                        </View>
+                        <View style={styles.infoContainer}>
+                            <Text style={styles.textOrden}>Orden #1</Text>
+                            <Text style={styles.textEstadoE}>Entregada</Text>
+                            <Text style={styles.textFecha}>1 de junio</Text>
+                        </View>
+                        <View style={styles.priceContainer}>
+                            <Text style={styles.textPrecio}>$ 10.00</Text>
                         </View>
                     </View>
                 </View>
@@ -134,7 +156,7 @@ const styles = StyleSheet.create({
     iconContainer: {
         flex: 0.4,
         alignItems: 'center',
-        backgroundColor: '#F37A20',
+        backgroundColor: '#3C4E0B',
         borderRadius: 50,
         padding: 5,
         marginRight: 30,
