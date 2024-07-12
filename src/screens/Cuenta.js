@@ -62,48 +62,37 @@ export default function Cuenta({ navigation }) {
                 <View style={styles.container}>
                     <View style={styles.profileContainer}>
                         <Image
-                            source={require('../img/perfil.jpg')}
+                            source={require('../img/perfil_ecoaprende.png')}
                             style={styles.perfil}
                         />
                     </View>
                     <View style={styles.infoContainer}>
-                        <Text style={styles.label}>Nombre:</Text>
-                        <Text style={styles.value}>Samuel.</Text>
+                        <Text style={styles.label}>Nombre</Text>
+                        <TextInput style={styles.inputValue} placeholder='Jose'></TextInput>
                     </View>
                     <View style={styles.infoContainer}>
-                        <Text style={styles.label}>Apellido:</Text>
-                        <Text style={styles.value}>De Luque.</Text>
+                        <Text style={styles.label}>Correo electrónico</Text>
+                        <TextInput style={styles.inputValue} placeholder='josesitpro777@gmail.com'></TextInput>
                     </View>
-
                     <View style={styles.infoContainer}>
-                        <Text style={styles.label}>Teléfono:</Text>
-                        <Text style={styles.value}>+503 7777-9999</Text>
+                        <Text style={styles.label}>Telefóno</Text>
+                        <TextInput style={styles.inputValue} placeholder='7777-8888'></TextInput>
                     </View>
-
                     <View style={styles.infoContainer}>
-                        <Text style={styles.label}>Correo:</Text>
-                        <Text style={styles.value}>vegetta777god@gmail.com</Text>
+                        <Text style={styles.label}>DUI</Text>
+                        <TextInput style={styles.inputValue} placeholder='11111111-1'></TextInput>
                     </View>
-
                     <View style={styles.infoContainer}>
-                        <Text style={styles.label}>Dirección:</Text>
-                        <Text style={styles.value}>San Salvador, San Salvador.</Text>
+                        <Text style={styles.label}>Clave</Text>
+                        <TextInput style={styles.inputValue2} placeholder='********'></TextInput>
                     </View>
-
-                    <View style={styles.buttonContainer}>
-                        <TouchableOpacity onPress={() => setCurrentScreen('Screen2')} style={[styles.button, styles.editButton]}>
-                            <Text style={styles.buttonText}>Editar perfil</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => setCurrentScreen('Screen3')} style={[styles.button, styles.changePasswordButton]}>
-                            <Text style={styles.buttonText}>Cambiar contraseña</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.buttonContainer2}>
-                        <TouchableOpacity onPress={(irInicio)}
-                            style={[styles.button, styles.logoutButton]}>
-                            <Text style={styles.buttonText}>Cerrar sesión</Text>
-                        </TouchableOpacity>
-                    </View>
+                    <TouchableOpacity style={[styles.button, styles.editButton]}>
+                        <Text style={styles.buttonText}>Editar datos</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={(irInicio)}
+                        style={[styles.button, styles.logoutButton]}>
+                        <Text style={styles.buttonText}>Cerrar sesión</Text>
+                    </TouchableOpacity>
                 </View>
             );
         }
@@ -113,7 +102,7 @@ export default function Cuenta({ navigation }) {
                 <View style={styles.container2}>
                     <View style={styles.profileContainer}>
                         <Image
-                            source={require('../img/perfil_vacia.jpg')}
+                            source={require('../img/perfil_ecoaprende.png')}
                             style={styles.perfil}
                         />
                     </View>
@@ -121,21 +110,17 @@ export default function Cuenta({ navigation }) {
                         <Text style={styles.label}>Nombre:</Text>
                         <TextInput style={styles.inputValue} value={nombre} onChangeText={setNombre}></TextInput>
                     </View>
-                    <View style={styles.infoContainer}>
-                        <Text style={styles.label}>Apellido:</Text>
-                        <TextInput style={styles.inputValue} value={apellido} onChangeText={setApellido}></TextInput>
+                    <View style={styles.infoContainer2}>
+                        <Text style={styles.label}>Nombre:</Text>
+                        <TextInput style={styles.inputValue} value={nombre} onChangeText={setNombre}></TextInput>
                     </View>
-
-                    <View style={styles.infoContainer}>
-                        <Text style={styles.label}>Teléfono:</Text>
-                        <TextInput style={styles.inputValue} value={telefono} onChangeText={setTelefono}>
-                        </TextInput>
+                    <View style={styles.infoContainer3}>
+                        <Text style={styles.label}>Nombre:</Text>
+                        <TextInput style={styles.inputValue} value={nombre} onChangeText={setNombre}></TextInput>
                     </View>
-
                     <View style={styles.infoContainer}>
-                        <Text style={styles.label}>Correo:</Text>
-                        <TextInput style={styles.inputValue}
-                            value={correo} onChangeText={setCorreo} keyboardType="email-address"></TextInput>
+                        <Text style={styles.label}>Nombre:</Text>
+                        <TextInput style={styles.inputValue} value={nombre} onChangeText={setNombre}></TextInput>
                     </View>
 
                     <View style={styles.infoContainer}>
@@ -229,18 +214,17 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: 'black',
         borderRadius: 100,
-        height: 200,
-        width: 200,
+        height: 120,
+        width: 120,
     },
     infoContainer: {
         marginBottom: 20,
-        flexDirection: 'row',
-        textAlign: 'left',
+        textAlign: 'center',
     },
     label: {
         textAlign: 'left',
-        fontSize: 18,
-        fontWeight: 'bold',
+        fontSize: 16,
+        fontWeight: '500',
         marginBottom: 5,
     },
     value: {
@@ -250,29 +234,31 @@ const styles = StyleSheet.create({
         marginBottom: 15,
     },
     inputValue: {
-        marginLeft: 10,
-        backgroundColor: '#C0C0C0',
-        width: 225,
+        backgroundColor: 'white',
+        width: 220,
         height: 30,
-        borderRadius: 50,
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: '#777F47',
         color: 'black',
         paddingLeft: 10,
+        marginRight: 100,
     },
-    buttonContainer: {
-        width: '80%',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginBottom: 20,
-    },
-    buttonContainer2: {
-        width: '80%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginLeft: 50,
+    inputValue2: {
+        backgroundColor: '#CBCBCB',
+        width: 220,
+        height: 30,
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: '#777F47',
+        color: 'black',
+        paddingLeft: 10,
+        marginRight: 100,
     },
     button: {
         flex: 1,
         paddingVertical: 10,
+        marginVertical: 1,
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 20,
@@ -285,23 +271,17 @@ const styles = StyleSheet.create({
         color: 'black',
     },
     editButton: {
-        backgroundColor: '#87CEEB',
-        borderWidth: 2,
-        borderColor: 'white',
-        marginRight: 10,
-    },
-    changePasswordButton: {
-        backgroundColor: '#98FB98',
-        borderWidth: 2,
-        borderColor: '#98FB98',
-        marginRight: 10,
-    },
-    logoutButton: {
-        alignItems: 'center',
-        backgroundColor: '#F08080',
+        marginHorizontal: 59,
+        backgroundColor: '#777F47',
         borderWidth: 2,
         width: 200,
-        borderColor: '#F08080',
+        borderColor: 'white',
+        alignItems: 'center',
+    },
+    logoutButton: {
+        marginHorizontal: 59,
+        alignItems: 'center',
+        width: 200,
     },
     buttonGuardar: {
         backgroundColor: '#98FB98',

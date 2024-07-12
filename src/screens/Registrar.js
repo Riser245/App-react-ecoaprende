@@ -1,27 +1,28 @@
 // Importar Dependencias.
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, Alert, ScrollView } from 'react-native';
 import { useState } from 'react';
 import Toast from 'react-native-toast-message';
-import { ScrollView } from 'react-native';
+import fetchData from '../../api/components'; 
 
-export default function Registrar({ navigation }) {
+const RegisterScreen = ({ navigation }) => {
+    // Url de la api
+    const USER_API = "servicios/publica/cliente.php";
 
+    // Constantes para el manejo de datos
+    const [nombre, setNombre] = useState("");
+    const [correo, setCorreo] = useState("");
+    const [telefono, setTelefono] = useState("");
+    const [dui, setDui] = useState("");
+    const [clave, setClave] = useState("");
+
+    // Función para navegar a IniciarSesion
     const irInicio = async () => {
         navigation.navigate('IniciarSesion');
     };
 
-    // Constantes para validar.
-    const [nombre, setNombre] = useState('');
-    const [telefono, setTelefono] = useState('');
-    const [clave, setClave] = useState('');
-    const [correo, setCorreo] = useState('');
-    const [dui, setDui] = useState('');
-    const ip = Api.IP;
-
-
+    // Función para manejar la creación de usuario
     const handleCreate = async () => {
         try {
-
             if (!nombre.trim() || !correo.trim() || !clave.trim() || !telefono.trim() || !dui.trim()) {
                 Toast.show({
                     type: 'error',
@@ -30,38 +31,48 @@ export default function Registrar({ navigation }) {
                 });
                 return;
             }
-
+    
             const formData = new FormData();
             formData.append('nombreUsuario', nombre);
             formData.append('telefonoUsuario', telefono);
             formData.append('claveUsuario', clave);
             formData.append('correoUsuario', correo);
             formData.append('duiUsuario', dui);
-s
-            const response = await fetch(`${ip}/ecoaprende/api/servicios/cliente/clientes.php?action=ingresoMovil`, {
+    
+            const response = await fetch(`http://10.0.2.2/ecoaprende/api/servicios/cliente/clientes.php?action=ingresoMovil`, {
                 method: 'POST',
                 body: formData
             });
-
-            const data = await response.json();
+    
+            // Imprimir la respuesta para depuración
+            const textResponse = await response.text();
+            console.log('Server response:', textResponse);
+    
+            if (!response.ok) {
+                console.error('Network response was not ok:', response.status, response.statusText);
+                throw new Error('Network response was not ok');
+            }
+    
+            const data = JSON.parse(textResponse);
+    
             if (data.status) {
                 Alert.alert('Datos Guardados correctamente');
                 navigation.navigate('IniciarSesion');
             } else {
-                Alert.alert('Error', data.error);
+                Alert.alert('Error', data.error || 'Unknown error');
             }
         } catch (error) {
-            Alert.alert('Ocurrió un error al intentar crear el usuario');
+            console.error('Error during user creation:', error);
+            Alert.alert('Ocurrió un error al intentar crear el usuario', error.message);
         }
     };
-
+    
 
     return (
         <ScrollView>
             <View style={styles.container}>
-
                 <Text style={styles.textBienvenida}>¡Bienvenido a EcoAprende!</Text>
-                <Text style={styles.textRegistro}>Registra tú usuario para que</Text>
+                <Text style={styles.textRegistro}>Registra tu usuario para que</Text>
                 <Text style={styles.textRegistro}>disfrutes de nuestra aplicación.</Text>
                 <Image
                     source={require('../img/registrar.png')}
@@ -84,7 +95,7 @@ s
                 </View>
                 <View style={styles.rowContainer}>
                     <View style={styles.inputContainer}>
-                        <TextInput placeholder='Telefono cliente:' style={styles.cuadroTextoG} value={telefono} onChangeText={setTelefono} keyboardType="email-address" />
+                        <TextInput placeholder='Telefono cliente:' style={styles.cuadroTextoG} value={telefono} onChangeText={setTelefono} keyboardType="phone-pad" />
                     </View>
                 </View>
                 <View style={styles.rowContainer}>
@@ -93,8 +104,7 @@ s
                     </View>
                 </View>
                 <View style={styles.container2}>
-                    <TouchableOpacity accionBoton={handleCreate}
-                        onPress={irInicio} style={styles.button}>
+                    <TouchableOpacity onPress={handleCreate} style={styles.button}>
                         <Text style={styles.buttonText}>Registrarse</Text>
                     </TouchableOpacity>
                     <Text onPress={irInicio} style={styles.buttonText2}> Regresar al login</Text>
@@ -181,3 +191,5 @@ const styles = StyleSheet.create({
         marginTop: 50,
     }
 });
+
+export default RegisterScreen;

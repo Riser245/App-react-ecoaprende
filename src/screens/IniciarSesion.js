@@ -10,6 +10,54 @@ import {
 } from "react-native";
 import { useState } from "react";
 import { ScrollView } from "react-native";
+import fetchData from '../../api/components';
+
+const LoginScreen = ({ logueado, setLogueado }) => {
+    const [email, setEmail] = React.useState('');
+    const [password, setPassword] = React.useState('');
+    const [passwordVisible, setPasswordVisible] = React.useState(false);
+    const navigation = useNavigation();
+}
+
+const USER_API = 'servicios/publica/cliente.php';
+
+const handleLogin = async () => {
+    if (!email || !password) {
+      setAlertType(2);
+      setAlertMessage(`Campos requeridos, Por favor, complete toda la información solicitada.`);
+      setAlertCallback(null);
+      setAlertVisible(true);
+      return;
+    } else {
+      // Creación del formulario para la petición
+      const formData = new FormData();
+      formData.append('correo', email);
+      formData.append('clave', password);
+
+      try {
+        // Realización de la petición de inicio de sesión
+        const data = await fetchData(USER_API, 'logIn', formData);
+        if (data.status) {
+          setAlertType(1);
+          setAlertMessage(`${data.message}`);
+          setAlertCallback(() => () => setLogueado(!logueado));
+          setAlertVisible(true);
+        } else {
+          console.log(data);
+          setAlertType(2);
+          setAlertMessage(`Error sesión: ${data.error}`);
+          setAlertCallback(null);
+          setAlertVisible(true);
+        }
+      } catch (error) {
+        console.log('Error: ', error);
+        setAlertType(2);
+        setAlertMessage(`Error: ${error}`);
+        setAlertCallback(null);
+        setAlertVisible(true);
+      }
+    }
+  };
 
 export default function IniciarSesion({ navigation }) {
 
@@ -133,7 +181,7 @@ const styles = StyleSheet.create({
         fontWeight: "600",
         fontSize: 14,
         marginTop: 10,
-        marginLeft: 240,
+        marginLeft: 220,
     },
     textLogin: {
         color: "#322C2B",
@@ -151,11 +199,10 @@ const styles = StyleSheet.create({
         color: "black",
         marginBottom: 10,
         marginTop: 10,
-        borderColor: " #777F47",
+        borderColor: "black",
         borderWidth: 2
     },
     textBienvenida: {
-        color: "#777F47",
         fontWeight: "700",
         fontSize: 20,
         marginBottom: 5,
