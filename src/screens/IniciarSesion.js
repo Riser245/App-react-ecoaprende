@@ -1,65 +1,56 @@
 // Importar Dependencias.
-import {
-    StyleSheet,
-    Text,
-    View,
-    TextInput,
-    TouchableOpacity,
-    Image,
-    ImageBackground,
-} from "react-native";
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, ImageBackground } from "react-native";
 import { useState } from "react";
 import { ScrollView } from "react-native";
 import fetchData from '../../api/components';
 
-const LoginScreen = ({ logueado, setLogueado }) => {
+const IniciarSesion = ({ logueado, setLogueado }) => {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [passwordVisible, setPasswordVisible] = React.useState(false);
     const navigation = useNavigation();
-}
 
-const USER_API = 'servicios/publica/cliente.php';
 
-const handleLogin = async () => {
-    if (!email || !password) {
-      setAlertType(2);
-      setAlertMessage(`Campos requeridos, Por favor, complete toda la información solicitada.`);
-      setAlertCallback(null);
-      setAlertVisible(true);
-      return;
-    } else {
-      // Creación del formulario para la petición
-      const formData = new FormData();
-      formData.append('correo', email);
-      formData.append('clave', password);
+    const USER_API = 'servicios/cliente/clientes.php';
 
-      try {
-        // Realización de la petición de inicio de sesión
-        const data = await fetchData(USER_API, 'logIn', formData);
-        if (data.status) {
-          setAlertType(1);
-          setAlertMessage(`${data.message}`);
-          setAlertCallback(() => () => setLogueado(!logueado));
-          setAlertVisible(true);
+    const handleLogin = async () => {
+        if (!email || !password) {
+            setAlertType(2);
+            setAlertMessage(`Campos requeridos, Por favor, complete toda la información solicitada.`);
+            setAlertCallback(null);
+            setAlertVisible(true);
+            return;
         } else {
-          console.log(data);
-          setAlertType(2);
-          setAlertMessage(`Error sesión: ${data.error}`);
-          setAlertCallback(null);
-          setAlertVisible(true);
-        }
-      } catch (error) {
-        console.log('Error: ', error);
-        setAlertType(2);
-        setAlertMessage(`Error: ${error}`);
-        setAlertCallback(null);
-        setAlertVisible(true);
-      }
-    }
-  };
+            // Creación del formulario para la petición
+            const formData = new FormData();
+            formData.append('correo', email);
+            formData.append('clave', password);
 
-export default function IniciarSesion({ navigation }) {
+            try {
+                // Realización de la petición de inicio de sesión
+                const data = await fetchData(USER_API, 'logIn', formData);
+                if (data.status) {
+                    setAlertType(1);
+                    setAlertMessage(`${data.message}`);
+                    setAlertCallback(() => () => setLogueado(!logueado));
+                    setAlertVisible(true);
+                } else {
+                    console.log(data);
+                    setAlertType(2);
+                    setAlertMessage(`Error sesión: ${data.error}`);
+                    setAlertCallback(null);
+                    setAlertVisible(true);
+                }
+            } catch (error) {
+                console.log('Error: ', error);
+                setAlertType(2);
+                setAlertMessage(`Error: ${error}`);
+                setAlertCallback(null);
+                setAlertVisible(true);
+            }
+        }
+    };
+
 
     const irMenu = async () => {
         navigation.navigate("NavBottom");
