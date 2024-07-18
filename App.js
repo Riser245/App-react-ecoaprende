@@ -23,7 +23,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="Registrar">
+            <Stack.Navigator initialRouteName="IniciarSesion">
                 <Stack.Screen
                     name="Index"
                     component={Index}

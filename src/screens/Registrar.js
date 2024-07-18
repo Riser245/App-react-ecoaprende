@@ -6,23 +6,25 @@ import fetchData from '../../api/components';
 
 const RegisterScreen = ({ navigation }) => {
     // Url de la api
-    const USER_API = "servicios/publica/cliente.php";
+    const USER_API = "servicios/cliente/clientes.php";
 
     // Constantes para el manejo de datos
     const [nombre, setNombre] = useState("");
     const [correo, setCorreo] = useState("");
     const [telefono, setTelefono] = useState("");
-    const [dui, setDui] = useState("");
+    const [dui, setDUI] = useState("");
     const [clave, setClave] = useState("");
 
     // Función para navegar a IniciarSesion
     const irInicio = async () => {
         navigation.navigate('IniciarSesion');
     };
-/* 
+
     // Función para manejar la creación de usuario
     const handleCreate = async () => {
         try {
+
+            // Validacion si en caso estan vacios los campos.
             if (!nombre.trim() || !correo.trim() || !clave.trim() || !telefono.trim() || !dui.trim()) {
                 Toast.show({
                     type: 'error',
@@ -32,52 +34,11 @@ const RegisterScreen = ({ navigation }) => {
                 return;
             }
             const formData = new FormData();
-            formData.append('nombreUsuario', nombre);
-            formData.append('telefonoUsuario', telefono);
-            formData.append('claveUsuario', clave);
-            formData.append('correoUsuario', correo);
-            formData.append('duiUsuario', dui);
-            const response = await fetch(`http://10.0.2.2/ecoaprende/api/servicios/cliente/clientes.php?action=ingresoMovil`, {
-                method: 'POST',
-                body: formData
-            });
-            // Imprimir la respuesta para depuración
-            const textResponse = await response.text();
-            console.log('Server response:', textResponse);
-            if (!response.ok) {
-                console.error('Network response was not ok:', response.status, response.statusText);
-                throw new Error('Network response was not ok');
-            }
-            const data = JSON.parse(textResponse);
-            if (data.status) {
-                Alert.alert('Datos Guardados correctamente');
-                navigation.navigate('IniciarSesion');
-            } else {
-                Alert.alert('Error', data.error || 'Unknown error');
-            }
-        } catch (error) {
-            console.error('Error during user creation:', error);
-            Alert.alert('Ocurrió un error al intentar crear el usuario', error.message);
-        }
-    };
- */
-    // Función para manejar la creación de usuario
-    const handleCreate = async () => {
-        try {
-            if (!nombre.trim() || !correo.trim() || !clave.trim() || !telefono.trim() || !dui.trim()) {
-                Toast.show({
-                    type: 'error',
-                    text1: 'Faltan datos',
-                    text2: 'Por favor, complete todos los campos.',
-                });
-                return;
-            }
-            const formData = new FormData();
-            formData.append('nombreUsuario', nombre);
-            formData.append('telefonoUsuario', telefono);
-            formData.append('claveUsuario', clave);
-            formData.append('correoUsuario', correo);
-            formData.append('duiUsuario', dui);
+            formData.append('nombreRegistro', nombre);
+            formData.append('telefonoRegistro', telefono);
+            formData.append('claveRegistro', clave);
+            formData.append('correoRegistro', correo);
+            formData.append('duiRegistro', dui);
             //Petición a la api para insertar un usuario
             const data = await fetchData(USER_API, "IngresoMovil", formData);
             if (data.status) {
@@ -125,7 +86,7 @@ const RegisterScreen = ({ navigation }) => {
                 </View>
                 <View style={styles.rowContainer}>
                     <View style={styles.inputContainer}>
-                        <TextInput placeholder='DUI:' style={styles.cuadroTextoG} value={dui} onChangeText={setDui} />
+                        <TextInput placeholder='DUI:' style={styles.cuadroTextoG} value={dui} onChangeText={setDUI} />
                     </View>
                 </View>
                 <View style={styles.container2}>
