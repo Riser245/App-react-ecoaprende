@@ -1,5 +1,5 @@
 // Importar Dependencias.
-import { View, StyleSheet, Image, Text,ScrollView, TextInput, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Image, Text, ScrollView, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { useState } from "react";
 import Toast from 'react-native-toast-message';
 import fetchData from '../../api/components';
@@ -15,68 +15,61 @@ const IniciarSesion = ({ logueado, setLogueado }) => {
     const navigation = useNavigation();
 
     // URL de la API para el usuario
-  const USER_API = 'servicios/publica/cliente.php';
+    const USER_API = 'servicios/cliente/clientes.php';
 
-  // Manejo de inicio de sesión
-  const handleLogin = async () => {
-    // Verifica que los campos no estén vacíos
-    if (!email || !password) {
-      setAlertType(2);
-      setAlertMessage(`Campos requeridos, Por favor, complete todos los campos.`);
-      setAlertCallback(null);
-      setAlertVisible(true);
-      Toast.show({
-        type: 'error',
-        text1: 'Faltan datos',
-        text2: 'Por favor, complete todos los campos.',
-    });
-    return
-    } else {
-      // Creación del formulario para la petición
-      const formData = new FormData();
-      formData.append('correoCliente', email);
-      formData.append('claveCliente', password);
-
-      try {
-        // Realización de la petición de inicio de sesión
-        const data = await fetchData(USER_API, 'logIn', formData);
-        if (data.status) {
-            setAlertType(1);
-            setAlertMessage(`${data.message}`);
-            setAlertCallback(() => () => setLogueado(!logueado));
-            setAlertVisible(true);
-            Toast.show({
-                type: 'success',
-                text1: 'Verificación correcta',
-                text2: `${data.message}`,
-            });
-            irMenu();
-        } else {
-            console.log(data);
-            setAlertType(2);
-            setAlertMessage(`Error sesión: ${data.error}`);
-            setAlertCallback(null);
-            setAlertVisible(true);
+    // Manejo de inicio de sesión
+    const handleLogin = async () => {
+        // Verifica que los campos no estén vacíos
+        if (!email || !password) {
             Toast.show({
                 type: 'error',
-                text1: 'Error de verificación',
-                text2: `Error al iniciar la sesión: ${data.error}`,
+                text1: 'Faltan datos',
+                text2: 'Por favor, complete todos los campos.',
             });
+            Alert('Campos vacios');
+            return
+        } else {
+            console.log(email);
+            console.log(password);
+            // Creación del formulario para la petición
+            const formData = new FormData();
+            formData.append('correo', email);
+            formData.append('clave', password);
+            console.log(formData);
+
+            try {
+                // Realización de la petición de inicio de sesión
+                const data = await fetchData(USER_API, 'logIn', formData);
+                console.log(data);
+                if (data.status) {
+                    console.log(data.message);
+                    Alert(`${data.message}`);
+                    Toast.show({
+                        type: 'success',
+                        text1: 'Verificación correcta',
+                        text2: `${data.message}`,
+                    });
+                    irMenu();
+                } else {
+                    Alert(`Error al iniciar la sesión: ${data.error}`);
+                    console.log(data.error);
+                    Toast.show({
+                        type: 'error',
+                        text1: 'Error de verificación',
+                        text2: `Error al iniciar la sesión: ${data.error}`,
+                    });
+                }
+            } catch (error) {
+                Alert(`Error: ${error}`,);
+                console.log(`Error: ${error}`);
+                Toast.show({
+                    type: 'error',
+                    text1: 'Error de verificación',
+                    text2: `Error: ${error}`,
+                });
+            }
         }
-      } catch (error) {
-        console.log('Error: ', error);
-        setAlertType(2);
-        setAlertMessage(`Error: ${error}`);
-        setAlertCallback(null);
-        setAlertVisible(true);
-        Toast.show({
-            type: 'error',
-            text1: 'Error de verificación',
-            text2: `Error: ${error}`,
-        });
-      }
-    }
-  };
+    };
 
     const irMenu = () => {
         navigation.navigate("NavBottom");
