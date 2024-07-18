@@ -2,7 +2,7 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, Alert, ScrollView } from 'react-native';
 import { useState } from 'react';
 import Toast from 'react-native-toast-message';
-import fetchData from '../../api/components'; 
+import fetchData from '../../api/components';
 
 const RegisterScreen = ({ navigation }) => {
     // Url de la api
@@ -19,7 +19,7 @@ const RegisterScreen = ({ navigation }) => {
     const irInicio = async () => {
         navigation.navigate('IniciarSesion');
     };
-
+/* 
     // Función para manejar la creación de usuario
     const handleCreate = async () => {
         try {
@@ -31,30 +31,24 @@ const RegisterScreen = ({ navigation }) => {
                 });
                 return;
             }
-    
             const formData = new FormData();
             formData.append('nombreUsuario', nombre);
             formData.append('telefonoUsuario', telefono);
             formData.append('claveUsuario', clave);
             formData.append('correoUsuario', correo);
             formData.append('duiUsuario', dui);
-    
             const response = await fetch(`http://10.0.2.2/ecoaprende/api/servicios/cliente/clientes.php?action=ingresoMovil`, {
                 method: 'POST',
                 body: formData
             });
-    
             // Imprimir la respuesta para depuración
             const textResponse = await response.text();
             console.log('Server response:', textResponse);
-    
             if (!response.ok) {
                 console.error('Network response was not ok:', response.status, response.statusText);
                 throw new Error('Network response was not ok');
             }
-    
             const data = JSON.parse(textResponse);
-    
             if (data.status) {
                 Alert.alert('Datos Guardados correctamente');
                 navigation.navigate('IniciarSesion');
@@ -66,7 +60,38 @@ const RegisterScreen = ({ navigation }) => {
             Alert.alert('Ocurrió un error al intentar crear el usuario', error.message);
         }
     };
-    
+ */
+    // Función para manejar la creación de usuario
+    const handleCreate = async () => {
+        try {
+            if (!nombre.trim() || !correo.trim() || !clave.trim() || !telefono.trim() || !dui.trim()) {
+                Toast.show({
+                    type: 'error',
+                    text1: 'Faltan datos',
+                    text2: 'Por favor, complete todos los campos.',
+                });
+                return;
+            }
+            const formData = new FormData();
+            formData.append('nombreUsuario', nombre);
+            formData.append('telefonoUsuario', telefono);
+            formData.append('claveUsuario', clave);
+            formData.append('correoUsuario', correo);
+            formData.append('duiUsuario', dui);
+            //Petición a la api para insertar un usuario
+            const data = await fetchData(USER_API, "IngresoMovil", formData);
+            if (data.status) {
+                Alert.alert('Datos Guardados correctamente');
+                navigation.navigate('IniciarSesion');
+            } else {
+                Alert.alert('Error', data.error || 'Error desconocido');
+            }
+        } catch (error) {
+            console.error('Error durante la creación de usuario:', error);
+            Alert.alert('Ocurrió un error al intentar crear el usuario', error.message);
+        }
+    };
+
 
     return (
         <ScrollView>

@@ -1,24 +1,26 @@
 // Importar Dependencias.
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, ImageBackground } from "react-native";
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, ScrollView } from "react-native";
 import { useState } from "react";
-import { ScrollView } from "react-native";
 import fetchData from '../../api/components';
+import Toast from 'react-native-toast-message';
+import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/FontAwesome'; // Asegúrate de tener instalado react-native-vector-icons
 
 const IniciarSesion = ({ logueado, setLogueado }) => {
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
-    const [passwordVisible, setPasswordVisible] = React.useState(false);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [passwordVisible, setPasswordVisible] = useState(false);
     const navigation = useNavigation();
-
 
     const USER_API = 'servicios/cliente/clientes.php';
 
     const handleLogin = async () => {
         if (!email || !password) {
-            setAlertType(2);
-            setAlertMessage(`Campos requeridos, Por favor, complete toda la información solicitada.`);
-            setAlertCallback(null);
-            setAlertVisible(true);
+            Toast.show({
+                type: 'error',
+                text1: 'Faltan datos',
+                text2: 'Por favor, complete todos los campos.',
+            });
             return;
         } else {
             // Creación del formulario para la petición
@@ -30,43 +32,43 @@ const IniciarSesion = ({ logueado, setLogueado }) => {
                 // Realización de la petición de inicio de sesión
                 const data = await fetchData(USER_API, 'logIn', formData);
                 if (data.status) {
-                    setAlertType(1);
-                    setAlertMessage(`${data.message}`);
-                    setAlertCallback(() => () => setLogueado(!logueado));
-                    setAlertVisible(true);
+                    Toast.show({
+                        type: 'success',
+                        text1: 'Verificación correcta',
+                        text2: `${data.message}`,
+                    });
+                    irMenu();
                 } else {
-                    console.log(data);
-                    setAlertType(2);
-                    setAlertMessage(`Error sesión: ${data.error}`);
-                    setAlertCallback(null);
-                    setAlertVisible(true);
+                    Toast.show({
+                        type: 'error',
+                        text1: 'Error de verificación',
+                        text2: `Error al iniciar la sesión: ${data.error}`,
+                    });
                 }
             } catch (error) {
-                console.log('Error: ', error);
-                setAlertType(2);
-                setAlertMessage(`Error: ${error}`);
-                setAlertCallback(null);
-                setAlertVisible(true);
+                Toast.show({
+                    type: 'error',
+                    text1: 'Error de verificación',
+                    text2: `Error: ${error}`,
+                });
             }
         }
     };
 
-
-    const irMenu = async () => {
+    const irMenu = () => {
         navigation.navigate("NavBottom");
     };
 
-    const irRecuperacion = async () => {
+    const irRecuperacion = () => {
         navigation.navigate("Recup1");
     };
 
-    const irRegistro = async () => {
+    const irRegistro = () => {
         navigation.navigate("Registrar");
     };
 
     return (
         <ScrollView>
-
             <View style={styles.container}>
                 <Image source={require("../img/login.png")} style={styles.logo} />
 
@@ -79,37 +81,49 @@ const IniciarSesion = ({ logueado, setLogueado }) => {
                             placeholder="Correo electrónico:"
                             placeholderTextColor={"#000"}
                             style={styles.cuadroTextoG}
+                            value={email}
+                            onChangeText={setEmail}
                             keyboardType="email-address" />
                     </View>
                 </View>
                 <View style={styles.rowContainer}>
                     <View style={styles.inputContainer}>
-                        <TextInput
-                            placeholder="Clave:"
-                            placeholderTextColor={"#000"}
-                            style={styles.cuadroTextoG}
-                            secureTextEntry
-                        />
+                        <View style={styles.passwordContainer}>
+                            <TextInput
+                                placeholder="Clave:"
+                                placeholderTextColor={"#000"}
+                                style={styles.cuadroTextoG}
+                                value={password}
+                                onChangeText={setPassword}
+                                secureTextEntry={!passwordVisible}
+                            />
+                            <TouchableOpacity
+                                onPress={() => setPasswordVisible(!passwordVisible)}
+                                style={styles.eyeIcon}
+                            >
+                                <Icon name={passwordVisible ? "eye-slash" : "eye"} size={20} color="#000" />
+                            </TouchableOpacity>
+                        </View>
                         <Text onPress={irRecuperacion} style={styles.buttonText3}>
-                            {" "}
-                            ¿Olvidó su clave?{" "}
+                            ¿Olvidó su clave?
                         </Text>
                     </View>
                 </View>
 
                 <View style={styles.container2}>
-                    <TouchableOpacity onPress={irMenu} style={styles.button}>
+                    <TouchableOpacity onPress={handleLogin} style={styles.button}>
                         <Text style={styles.buttonText}>Iniciar sesión</Text>
                     </TouchableOpacity>
                     <Text onPress={irRegistro} style={styles.buttonText2}>
-                        {" "}
-                        ¿No tienes cuenta aún? Inicia aquí{" "}
+                        ¿No tienes cuenta aún? Inicia aquí
                     </Text>
                 </View>
             </View>
         </ScrollView>
     );
 }
+
+export default IniciarSesion;
 
 // Diseño de la pantalla.
 const styles = StyleSheet.create({
@@ -140,6 +154,19 @@ const styles = StyleSheet.create({
     inputContainer: {
         flex: 1,
         marginHorizontal: 7,
+    },
+    passwordContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: 'white',
+        borderRadius: 10,
+        borderWidth: 2,
+        borderColor: 'black',
+        marginBottom: 10,
+        marginTop: 10,
+    },
+    eyeIcon: {
+        paddingHorizontal: 10,
     },
     button: {
         marginTop: 20,
@@ -182,16 +209,10 @@ const styles = StyleSheet.create({
         marginRight: 110,
     },
     cuadroTextoG: {
-        backgroundColor: "white",
-        borderRadius: 10,
-        width: "100%",
+        flex: 1,
         height: 43,
         paddingHorizontal: 10,
         color: "black",
-        marginBottom: 10,
-        marginTop: 10,
-        borderColor: "black",
-        borderWidth: 2
     },
     textBienvenida: {
         fontWeight: "700",
@@ -201,3 +222,4 @@ const styles = StyleSheet.create({
         marginRight: 220,
     },
 });
+
