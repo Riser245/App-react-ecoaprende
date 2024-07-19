@@ -5,7 +5,7 @@ import { Card, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
 
-const Carrito = () => {
+const Inicio = () => {
 
     const navigation = useNavigation();
 
@@ -96,4 +96,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Carrito;
+export default Inicio;

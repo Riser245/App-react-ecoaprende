@@ -1,6 +1,6 @@
 // Importar Dependencias.
 import { View, StyleSheet, Image, Text, ScrollView, TextInput, TouchableOpacity, Alert } from 'react-native';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Toast from 'react-native-toast-message';
 import fetchData from '../../api/components';
 
@@ -29,6 +29,7 @@ const IniciarSesion = ({ logueado, setLogueado }) => {
             Alert('Campos vacios');
             return
         } else {
+            try {
             console.log(email);
             console.log(password);
             // Creación del formulario para la petición
@@ -36,22 +37,20 @@ const IniciarSesion = ({ logueado, setLogueado }) => {
             formData.append('correo', email);
             formData.append('clave', password);
             console.log(formData);
-
-            try {
                 // Realización de la petición de inicio de sesión
                 const data = await fetchData(USER_API, 'logIn', formData);
                 console.log(data);
                 if (data.status) {
                     console.log(data.message);
-                    Alert(`${data.message}`);
+                    Alert.alert(`${data.message}`);
                     Toast.show({
                         type: 'success',
                         text1: 'Verificación correcta',
                         text2: `${data.message}`,
                     });
-                    irMenu();
+                    setTimeout(irMenu, 2000);
                 } else {
-                    Alert(`Error al iniciar la sesión: ${data.error}`);
+                    Alert.alert(`Error al iniciar la sesión: ${data.error}`);
                     console.log(data.error);
                     Toast.show({
                         type: 'error',
@@ -60,7 +59,7 @@ const IniciarSesion = ({ logueado, setLogueado }) => {
                     });
                 }
             } catch (error) {
-                Alert(`Error: ${error}`,);
+                Alert.alert(`Error: ${error}`,);
                 console.log(`Error: ${error}`);
                 Toast.show({
                     type: 'error',
@@ -71,8 +70,24 @@ const IniciarSesion = ({ logueado, setLogueado }) => {
         }
     };
 
+     //Función para cerrar sesión
+  const handleLogOut = async () => {
+    try {
+      const data = await fetchData(USER_API, "logOut");
+      if (data.status) {
+        console.log(data);
+      } else {
+        Alert.alert("Error sesión", data.error);
+      }
+    } catch (error) {
+      console.log("Error: ", error);
+      Alert.alert("Error sesión", error);
+    }
+  };
+
+
     const irMenu = () => {
-        navigation.navigate("NavBottom");
+        navigation.navigate("Inicio");
     };
 
     const irRecuperacion = () => {
@@ -129,6 +144,9 @@ const IniciarSesion = ({ logueado, setLogueado }) => {
                 <View style={styles.container2}>
                     <TouchableOpacity onPress={handleLogin} style={styles.button}>
                         <Text style={styles.buttonText}>Iniciar sesión</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={handleLogOut} style={styles.button}>
+                        <Text style={styles.buttonText}>Cerrar sesión</Text>
                     </TouchableOpacity>
                     <Text onPress={irRegistro} style={styles.buttonText2}>
                         ¿No tienes cuenta aún? Inicia aquí
