@@ -1,12 +1,12 @@
 
 import { StatusBar, StyleSheet, Text, View, Image } from 'react-native';
-import { Card, Button } from 'react-native-paper';
+import { Card} from 'react-native-paper';
 import * as Constantes from '../../../api/contants';
 //recibimos por props la imagen del producto, nombre, precio y otras propiedades de productos para mostrarlas en el componente de 
 //productoCard
 const ip = Constantes.IP;
 
-export default function EntrenamientoView({ ip, imagenCategoria, nombreCategoria }) {
+export default function CategoriasView({ ip, imagenCategoria, nombreCategoria }) {
 
     return (
 
@@ -14,7 +14,7 @@ export default function EntrenamientoView({ ip, imagenCategoria, nombreCategoria
             <Card>
                 <Card.Content>
                     <View style={styles.imageContainer}>
-                        <Card.Cover style={styles.image} source={{ uri: `${ip}/${imagenCategoria}` }} />
+                        <Card.Cover style={styles.image} source={{ uri: `${ip}/ecoaprende/api/imagenes/categoria${imagenCategoria}` }} />
                     </View>
 
                     <Text style={styles.textTitle}>{nombreCategoria}</Text>
