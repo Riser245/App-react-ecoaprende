@@ -3,16 +3,21 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image, Alert, Scro
 import { useState } from 'react';
 import Toast from 'react-native-toast-message';
 import fetchData from '../../api/components';
+import MaskedInputDui from '../components/Inputs/MaskedInputDui';
+import MaskedInputTelefono from '../components/Inputs/MaskedInputTelefono';
 
 const RegisterScreen = ({ navigation }) => {
     // Url de la api
     const USER_API = "servicios/cliente/clientes.php";
 
+    const duiRegex = /^\d{8}-\d$/;
+    const telefonoRegex = /^\d{4}-\d{4}$/;
+
     // Constantes para el manejo de datos
     const [nombre, setNombre] = useState("");
     const [correo, setCorreo] = useState("");
     const [telefono, setTelefono] = useState("");
-    const [dui, setDUI] = useState("");
+    const [dui, setDui] = useState("");
     const [clave, setClave] = useState("");
 
     // Función para navegar a IniciarSesion
@@ -31,6 +36,12 @@ const RegisterScreen = ({ navigation }) => {
                     text1: 'Faltan datos',
                     text2: 'Por favor, complete todos los campos.',
                 });
+                return;
+            } else if (!duiRegex.test(dui)) {
+                Alert.alert("El DUI debe tener el formato correcto (########-#)");
+                return;
+            } else if (!telefonoRegex.test(telefono)) {
+                Alert.alert("El teléfono debe tener el formato correcto (####-####)");
                 return;
             }
             const formData = new FormData();
@@ -53,7 +64,7 @@ const RegisterScreen = ({ navigation }) => {
         }
     };
 
-
+    // Vista de la pantalla de Registrarse.
     return (
         <ScrollView>
             <View style={styles.container}>
@@ -81,12 +92,16 @@ const RegisterScreen = ({ navigation }) => {
                 </View>
                 <View style={styles.rowContainer}>
                     <View style={styles.inputContainer}>
-                        <TextInput placeholder='Telefono cliente:' style={styles.cuadroTextoG} value={telefono} onChangeText={setTelefono} keyboardType="phone-pad" />
+                        <MaskedInputTelefono
+                            telefono={telefono}
+                            setTelefono={setTelefono} />
                     </View>
                 </View>
                 <View style={styles.rowContainer}>
                     <View style={styles.inputContainer}>
-                        <TextInput placeholder='DUI:' style={styles.cuadroTextoG} value={dui} onChangeText={setDUI} />
+                        <MaskedInputDui
+                            dui={dui}
+                            setDui={setDui} />
                     </View>
                 </View>
                 <View style={styles.container2}>

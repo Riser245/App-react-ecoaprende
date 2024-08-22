@@ -30,13 +30,13 @@ const IniciarSesion = ({ logueado, setLogueado }) => {
             return
         } else {
             try {
-            console.log(email);
-            console.log(password);
-            // Creación del formulario para la petición
-            const formData = new FormData();
-            formData.append('correo', email);
-            formData.append('clave', password);
-            console.log(formData);
+                console.log(email);
+                console.log(password);
+                // Creación del formulario para la petición
+                const formData = new FormData();
+                formData.append('correo', email);
+                formData.append('clave', password);
+                console.log(formData);
                 // Realización de la petición de inicio de sesión
                 const data = await fetchData(USER_API, 'logIn', formData);
                 console.log(data);
@@ -70,20 +70,20 @@ const IniciarSesion = ({ logueado, setLogueado }) => {
         }
     };
 
-     //Función para cerrar sesión
-  const handleLogOut = async () => {
-    try {
-      const data = await fetchData(USER_API, "logOut");
-      if (data.status) {
-        console.log(data);
-      } else {
-        Alert.alert("Error sesión", data.error);
-      }
-    } catch (error) {
-      console.log("Error: ", error);
-      Alert.alert("Error sesión", error);
-    }
-  };
+    //Función para cerrar sesión
+    const handleLogOut = async () => {
+        try {
+            const data = await fetchData(USER_API, "logOut");
+            if (data.status) {
+                console.log(data);
+            } else {
+                Alert.alert("Error sesión", data.error);
+            }
+        } catch (error) {
+            console.log("Error: ", error);
+            Alert.alert("Error sesión", error);
+        }
+    };
 
 
     const irMenu = () => {
@@ -98,6 +98,8 @@ const IniciarSesion = ({ logueado, setLogueado }) => {
         navigation.navigate("Registrar");
     };
 
+
+    // Vista de la pantalla de Iniciar Sesión.
     return (
         <ScrollView>
             <View style={styles.container}>
@@ -108,13 +110,15 @@ const IniciarSesion = ({ logueado, setLogueado }) => {
 
                 <View style={styles.rowContainer}>
                     <View style={styles.inputContainer}>
-                        <TextInput
-                            placeholder="Correo electrónico:"
-                            placeholderTextColor={"#000"}
-                            style={styles.cuadroTextoG}
-                            value={email}
-                            onChangeText={setEmail}
-                            keyboardType="email-address" />
+                        <View style={styles.emailContainer}>
+                            <TextInput
+                                placeholder="Correo electrónico:"
+                                placeholderTextColor={"#000"}
+                                style={styles.cuadroTextoG}
+                                value={email}
+                                onChangeText={setEmail}
+                                keyboardType="email-address" />
+                        </View>
                     </View>
                 </View>
                 <View style={styles.rowContainer}>
@@ -190,6 +194,16 @@ const styles = StyleSheet.create({
         marginHorizontal: 7,
     },
     passwordContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: 'white',
+        borderRadius: 10,
+        borderWidth: 2,
+        borderColor: 'black',
+        marginBottom: 10,
+        marginTop: 10,
+    },
+    emailContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: 'white',
