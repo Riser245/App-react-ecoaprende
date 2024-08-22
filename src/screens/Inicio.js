@@ -1,5 +1,5 @@
 // Importar Dependencias.
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image,SafeAreaView, FlatList, StyleSheet, ScrollView } from 'react-native';
 import { Card, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
