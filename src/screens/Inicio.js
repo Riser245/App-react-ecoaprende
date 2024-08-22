@@ -13,7 +13,7 @@ const Inicio = () => {
     const ip = Constantes.IP;
     const navigation = useNavigation();
     const [nombre, setNombre] = useState(null);
-    const [dataEntrenamientos, setDataCategorias] = useState([]);
+    const [dataCategorias, setDataCategorias] = useState([]);
 
     const getUser = async () => {
         try {
@@ -64,7 +64,7 @@ const Inicio = () => {
 
                 <SafeAreaView style={styles.containerFlat}>
                     <FlatList
-                        data={dataEntrenamientos}
+                        data={dataCategorias}
                         keyExtractor={(item) => item.id_categoria.toString()} // Id por el que se cargan las cards
                         renderItem={({ item }) => (
                             <CategoriasView
@@ -74,7 +74,6 @@ const Inicio = () => {
                                 nombreCategoria={item.nombre_categoria}
                             />
                         )}
-                        ListHeaderComponent={<></>}
                     />
                 </SafeAreaView>
                 <Card style={styles.card}>
