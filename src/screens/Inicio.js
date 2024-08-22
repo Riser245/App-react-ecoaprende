@@ -47,6 +47,7 @@ const Inicio = () => {
             }
 
         } catch (error) {
+            console.log(data);
             Alert.alert('Error', 'Ocurrió un error al cargar las categorias');
         }
     };
