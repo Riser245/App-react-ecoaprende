@@ -98,6 +98,8 @@ const IniciarSesion = ({ logueado, setLogueado }) => {
         navigation.navigate("Registrar");
     };
 
+
+    // Vista de la pantalla de Iniciar Sesión.
     return (
         <ScrollView>
             <View style={styles.container}>

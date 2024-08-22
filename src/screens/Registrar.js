@@ -64,7 +64,7 @@ const RegisterScreen = ({ navigation }) => {
         }
     };
 
-
+    // Vista de la pantalla de Registrarse.
     return (
         <ScrollView>
             <View style={styles.container}>
