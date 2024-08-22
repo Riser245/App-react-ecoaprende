@@ -1,6 +1,6 @@
 // Importar Dependencias.
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image,SafeAreaView, FlatList, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, Image, SafeAreaView, FlatList, StyleSheet, ScrollView, Alert } from 'react-native';
 import { Card, Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import * as Constantes from '../../api/contants';
@@ -10,31 +10,17 @@ import CategoriasView from '../components/Categorias/categorias';
 
 const Inicio = () => {
 
-    const ip = Constantes.IP;
+    const ip = Constantes.SERVER_URL;
     const navigation = useNavigation();
     const [nombre, setNombre] = useState(null);
     const [dataCategorias, setDataCategorias] = useState([]);
 
-    const getUser = async () => {
-        try {
-            const response = await fetch(`${ip}/ecoaprende/api/servicios/cliente/clientes.php?action=getUser`, {
-                method: 'GET'
-            });
-            const data = await response.json();
-            if (data.status) {
-                setNombre(data.username); //Aqui asignamos el correo del usuario que ha iniciado sesion
-            } else {
-                Alert.alert('Error', data.error);
-            }
-        } catch (error) {
-            Alert.alert('Error', 'Ocurrió un error al obtener el usuario');
-        }
-    };
+
 
     const getCategorias = async () => {
         try {
-            const response = await fetch(`${ip}/ecoaprende/api/servicios/cliente/categorias.php?action=readAll`, {
-                method: 'GET', //Obtenemos la información extra de La Academia
+            const response = await fetch(`${ip}servicios/cliente/categorias.php?action=readAll`, {
+                method: 'GET',
             });
 
             const data = await response.json();
@@ -53,36 +39,29 @@ const Inicio = () => {
     };
 
     useEffect(() => { //Se cargan los metodos
-        getUser();
         getCategorias();
     }, []);
 
 
     return (
-            <View style={styles.container}>
-                <Text style={styles.subheaderText}>Categorías para lo que busques</Text>
-                <Card style={styles.card}>
-                    <Card.Content>
-                        <Card.Cover style={styles.img} source={require('../img/libros.png')} />
-                        <Text style={styles.textoTitulo} variant="titleLarge">Literatura</Text>
-                    </Card.Content>
-                </Card>
+        <View style={styles.container}>
+            <Text style={styles.subheaderText}>Categorías para lo que busques</Text>
 
-        <SafeAreaView style={styles.containerFlat}>
-        <FlatList
-            data={dataCategorias}
-            keyExtractor={(item) => item.id_categoria.toString()} // Id por el que se cargan las cards
-            renderItem={({ item }) => (
-                <CategoriasView
-                    ip={ip}
-                    idCategoria={item.id_categoria}
-                    imagenCategoria={item.imagen_categoria}
-                    nombreCategoria={item.nombre_categoria}
+            <SafeAreaView style={styles.containerFlat}>
+                <FlatList
+                    data={dataCategorias}
+                    keyExtractor={(item) => item.id_categoria.toString()}
+                    renderItem={({ item }) => (
+                        <CategoriasView
+                            ip={ip}
+                            idCategoria={item.id_categoria}
+                            imagenCategoria={item.imagen_categoria}
+                            nombreCategoria={item.nombre_categoria}
+                        />
+                    )}
                 />
-            )}
-        />
-    </SafeAreaView>
-    </View>
+            </SafeAreaView>
+        </View>
 
 
     );

@@ -87,7 +87,7 @@ const IniciarSesion = ({ logueado, setLogueado }) => {
 
 
     const irMenu = () => {
-        navigation.navigate("Inicio");
+        navigation.navigate("NavBottom");
     };
 
     const irRecuperacion = () => {

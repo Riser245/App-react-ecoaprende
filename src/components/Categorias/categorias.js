@@ -4,17 +4,17 @@ import { Card} from 'react-native-paper';
 import * as Constantes from '../../../api/contants';
 //recibimos por props la imagen del producto, nombre, precio y otras propiedades de productos para mostrarlas en el componente de 
 //productoCard
-const ip = Constantes.IP;
+const ip = Constantes.SERVER_URL;
 
-export default function CategoriasView({ ip, imagenCategoria, nombreCategoria }) {
+export default function CategoriasView({ ip,idCategoria, imagenCategoria, nombreCategoria }) {
 
     return (
 
-        <View style={styles.card}>
-            <Card>
+        <View >
+            <Card style={styles.card}>
                 <Card.Content>
                     <View style={styles.imageContainer}>
-                        <Card.Cover style={styles.image} source={{ uri: `${ip}/ecoaprende/api/imagenes/categoria${imagenCategoria}` }} />
+                        <Card.Cover style={styles.image} source={{ uri: `${ip}categoria/${imagenCategoria}` }} />
                     </View>
 
                     <Text style={styles.textTitle}>{nombreCategoria}</Text>
@@ -40,25 +40,14 @@ const styles = StyleSheet.create({
         marginTop: StatusBar.currentHeight || 0,
     },
     card: {
-        backgroundColor: '#ffffff',
-        borderRadius: 8,
-        padding: 16,
-        marginVertical: 1,
-        marginBottom: 10,
-        marginTop: 10,
-        marginHorizontal: 16,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
+        backgroundColor: '#777F47',
+        width: '100%',
+        marginTop: 20
     },
     textTitle: {
         fontSize: 16,
-        marginBottom: 8, fontWeight: '700'
+        marginBottom: 8, fontWeight: '700',
+        color: 'white'
     },
     button: {
         backgroundColor: '#AF8260',
@@ -73,7 +62,7 @@ const styles = StyleSheet.create({
         fontWeight: '600'
     },
     image: {
-        width: '85%',
+        width: '100%',
         height: 150,
         borderRadius: 8,
         marginBottom: 12,
