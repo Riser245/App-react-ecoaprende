@@ -61,8 +61,14 @@ const Inicio = () => {
         <ScrollView contentContainerStyle={styles.scrollContainer}>
             <View style={styles.container}>
                 <Text style={styles.subheaderText}>Categorías para lo que busques</Text>
-
-                <SafeAreaView style={styles.containerFlat}>
+                <Card style={styles.card}>
+                    <Card.Content>
+                        <Card.Cover style={styles.img} source={require('../img/libros.png')} />
+                        <Text style={styles.textoTitulo} variant="titleLarge">Literatura</Text>
+                    </Card.Content>
+                </Card>
+            </View>
+            <SafeAreaView style={styles.containerFlat}>
                     <FlatList
                         data={dataCategorias}
                         keyExtractor={(item) => item.id_categoria.toString()} // Id por el que se cargan las cards
@@ -76,13 +82,6 @@ const Inicio = () => {
                         )}
                     />
                 </SafeAreaView>
-                <Card style={styles.card}>
-                    <Card.Content>
-                        <Card.Cover style={styles.img} source={require('../img/libros.png')} />
-                        <Text style={styles.textoTitulo} variant="titleLarge">Literatura</Text>
-                    </Card.Content>
-                </Card>
-            </View>
         </ScrollView>
     );
 };
