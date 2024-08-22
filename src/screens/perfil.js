@@ -38,7 +38,7 @@ const ProfileScreen = () => {
     // Función para obtener los datos del perfil del usuario desde el servidor
     const getProfileData = async () => {
         try {
-            const response = await fetch(`${ip}/AcademiaBP_EXPO/api/services/public/cliente.php?action=readProfile`, {
+            const response = await fetch(`${ip}/AcademiaBP_EXPO/api/services/public/cliente.php?action=readOne`, {
                 method: 'GET',
                 credentials: 'include' // Para enviar cookies con la solicitud
             });

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
-import Modal from 'react-native-modal';
-import Buttons from '../components/Buttons/Button';
+import Modal from "react-native-modal";
+import Buttons from '../Buttons/Button';
 
 const UserModal = ({
     isVisible,

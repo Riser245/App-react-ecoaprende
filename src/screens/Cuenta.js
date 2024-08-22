@@ -1,63 +1,178 @@
 // Importar Dependencias.
-import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {View, Text, Image, TouchableOpacity, ScrollView, StyleSheet,Alert } from 'react-native';
+import { Button, Card } from 'react-native-paper';
+import * as Constantes from '../../api/contants';
+import UsuarioModal from '../components/Modals/UsuarioModal';
+import Input from '../components/InputsPerfil/Inputs';
+import InputMultiline from '../components/InputsPerfil/InputMultiline';
+import MaskedInputTelefono from '../components/InputsPerfil/MaskedInputTelefono';
+import MaskedInputDui from '../components/InputsPerfil/MaskedInputDui';
+import InputEmail from '../components/InputsPerfil/InputEmail';
+import Buttons from '../components/InputsPerfil/Buttons/Button';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { TextInput } from 'react-native-gesture-handler';
 import Toast from 'react-native-toast-message';
+import fetchData from '../../api/components';
+
 
 export default function Cuenta({ navigation }) {
-
-    // Navegación entre pantallas.
-    const irInicio = async () => {
-        navigation.navigate('IniciarSesion');
-    };
-
-    // Constantes para validar.
-    const [password, setPassword] = useState('');
-    const [password2, setPassword2] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
-
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const USER_API = 'servicios/cliente/clientes.php';
+    // Estados para almacenar los datos del usuario
+    const [idCliente, setId] = useState('');
     const [nombre, setNombre] = useState('');
     const [apellido, setApellido] = useState('');
     const [telefono, setTelefono] = useState('');
     const [correo, setCorreo] = useState('');
     const [direccion, setDireccion] = useState('');
+    const [dui, setDui] = useState('');
+    const [foto, setFotoCliente] = useState('');
+    const [clave, setClave] = useState('');
+    const [confirmarClave, setConfirmar] = useState('');
+     // URL de la API para el usuario
+     
 
-    // Validación de la pantalla.
-    const GuardarDatos = async () => {
-        if (!nombre || !apellido || !telefono || !correo || !direccion) {
-            Toast.show({
-                type: 'error',
-                text1: 'Faltan datos',
-                text2: 'Por favor, complete todos los campos.',
-            });
-            return;
+     const handleLogOut = async () => {
+        try {
+          const data = await fetchData(USER_API, "logOut");
+          setTimeout(irInicio, 200);
+          if (data.status) {
+            console.log(data);
+          } else {
+            Alert.alert("Error sesión", data.error);
+          }
+        } catch (error) {
+          console.log("Error: ", error);
+          Alert.alert("Error sesión", error);
         }
-        setCurrentScreen('Screen1')
-    };
+      };
+    
 
-    const GuardarContra = () => {
-        if (password.length < 8) {
-            setErrorMessage('La contraseña debe tener al menos 5 caracteres.');
-            return;
-        }
-        if (password2.length < 8) {
-            setErrorMessage('La contraseña debe tener al menos 5 caracteres.');
-            return;
-        }
-        if (password != password2) {
-            setErrorMessage('Las contraseñas no coinciden');
-            return;
-        }
-        setErrorMessage(''); // Clear error message if all validations pass
-        setCurrentScreen('Screen1')
-    };
+      const [modalType, setModalType] = useState('');
 
-    const [currentScreen, setCurrentScreen] = useState('Screen1');
+      // Estado para almacenar los datos del perfil del usuario
+      const [profileData, setProfileData] = useState(null);
+  
+      // Constante que almacena la dirección IP del servidor
+      const ip = Constantes.IP;
+  
+      // Función para obtener los datos del perfil del usuario desde el servidor
+      const getProfileData = async () => {
+          try {
+              const response = await fetch(`${ip}servicios/cliente/clientes.php?action=readOne`, {
+                  method: 'GET',
+                  credentials: 'include' // Para enviar cookies con la solicitud
+              });
+  
+              const data = await response.json();
+              console.log(data);
+              if (data.status) {
+                  // Si la solicitud es exitosa, se actualizan los estados con los datos del perfil
+                  setProfileData(data.dataset);
+                  setId(data.dataset.id_cliente);
+                  setNombre(data.dataset.nombre_cliente);
+                  setApellido(data.dataset.apellido_cliente);
+                  setCorreo(data.dataset.correo_cliente);
+                  setDireccion(data.dataset.direccion_cliente);
+                  setDui(data.dataset.dui_cliente);
+                  setTelefono(data.dataset.telefono_cliente);
+                  setFotoCliente(`${ip}/ecoaprende/api/imagenes/clientes/${data.dataset.foto_cliente}`);
+              } else {
+                  // Si hay un error, se muestra una alerta
+                  Alert.alert('Error perfil', data.error);
+              }
+          } catch (error) {
+              // Manejo de errores en caso de que la solicitud falle
+              Alert.alert('Error', 'Ocurrió un error al obtener los datos del perfil');
+          }
+      };
+  
+      // Función para editar los datos del usuario
+      const handleEditUser = async () => {
+          try {
+  
+  
+              let localUri = foto
+              let fileName = ""
+              let match = ""
+              let type = ""
+              console.log('valor de la url:', localUri)
+              if (localUri == null || localUri == "") {
+                  Alert.alert("Selecciona una iamgen")
+              }
+              else {
+                  console.log('ejecutando filename')
+                  fileName = localUri.split('/').pop()
+                  match = /\.(\w+)$/.exec(fileName)
+                  type = match ? `image/${match[1]}` : `image`
+                  console.log(type)
+              }
+              const formData = new FormData();
+              formData.append('idCliente', idCliente);
+              formData.append('nombreCliente', nombre);
+              formData.append('apellidoCliente', apellido);
+              formData.append('correoCliente', correo);
+              formData.append('direccionCliente', direccion);
+              formData.append('duiCliente', dui);
+              formData.append('telefonoCliente', telefono);
+              formData.append('fotoInput', {
+                  uri: localUri,
+                  name: foto,
+                  type// Ajusta el tipo según corresponda
+              });
+  
+              const response = await fetch(`${ip}servicios/cliente/clientes.php?action=readEditProfile`, {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'multipart/form-data', // Se utiliza para que acepte cualquier tipo de contenido
+                      'Accept': 'application/json'
+                  },
+                  body: formData
+              });
+  
+              const responseText = await response.text(); // Obtén la respuesta como texto para depuración
+              console.log(responseText);
+  
+              const data = JSON.parse(responseText); // Asegúrate de parsear el texto a JSON
+              console.log(data);
+  
+              if (data.status) {
+                  Alert.alert('Éxito', data.message);
+                  setIsModalVisible(false);
+              } else {
+                  Alert.alert('Error', data.error);
+              }
+          } catch (error) {
+              console.error('Error al editar el usuario:', error);
+              Alert.alert('Error', `Ocurrió un error al editar el usuario: ${error.message}`);
+          }
+      };
+      // Función para abrir el modal de edición
+      const openEditModal = () => {
+          setModalType('edit');
+          setIsModalVisible(true);
+      };
+  
+      // Función para cerrar el modal
+      const closeModal = () => {
+          setIsModalVisible(false);
+      };
+  
+      // Función para manejar el envío del formulario según el tipo de modal
+      const handleSubmit = () => {
+          if (modalType === 'edit') {
+              handleEditUser();
+          } else if (modalType === 'password') {
+              handleChangePassword();
+          }
+      };
+  
+      // Uso del hook useEffect para obtener los datos del perfil cuando el componente se monta
+      useEffect(() => {
+          getProfileData();
+      }, []);
 
-    const renderScreen = () => {
-        if (currentScreen === 'Screen1') {
-            // Pantalla 1.
             return (
                 <View style={styles.container}>
                     <View style={styles.profileContainer}>
@@ -86,108 +201,38 @@ export default function Cuenta({ navigation }) {
                         <Text style={styles.label}>Clave</Text>
                         <TextInput style={styles.inputValue2} placeholder='********'></TextInput>
                     </View>
-                    <TouchableOpacity style={[styles.button, styles.editButton]}>
+                    <TouchableOpacity style={styles.button}>
                         <Text style={styles.buttonText}>Editar datos</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={(irInicio)}
-                        style={[styles.button, styles.logoutButton]}>
+
+                    <TouchableOpacity onPress={handleLogOut} style={styles.button}>
                         <Text style={styles.buttonText}>Cerrar sesión</Text>
                     </TouchableOpacity>
                 </View>
             );
-        }
-        if (currentScreen === 'Screen2') {
-            // Pantalla 2.
-            return (
-                <View style={styles.container2}>
-                    <View style={styles.profileContainer}>
-                        <Image
-                            source={require('../img/perfil_ecoaprende.png')}
-                            style={styles.perfil}
-                        />
-                    </View>
-                    <View style={styles.infoContainer}>
-                        <Text style={styles.label}>Nombre:</Text>
-                        <TextInput style={styles.inputValue} value={nombre} onChangeText={setNombre}></TextInput>
-                    </View>
-                    <View style={styles.infoContainer2}>
-                        <Text style={styles.label}>Nombre:</Text>
-                        <TextInput style={styles.inputValue} value={nombre} onChangeText={setNombre}></TextInput>
-                    </View>
-                    <View style={styles.infoContainer3}>
-                        <Text style={styles.label}>Nombre:</Text>
-                        <TextInput style={styles.inputValue} value={nombre} onChangeText={setNombre}></TextInput>
-                    </View>
-                    <View style={styles.infoContainer}>
-                        <Text style={styles.label}>Nombre:</Text>
-                        <TextInput style={styles.inputValue} value={nombre} onChangeText={setNombre}></TextInput>
-                    </View>
-
-                    <View style={styles.infoContainer}>
-                        <Text style={styles.label}>Dirección:</Text>
-                        <TextInput style={styles.inputValue}
-                            value={direccion} onChangeText={setDireccion}></TextInput>
-                    </View>
-
-                    <View style={styles.buttonContainer}>
-                        <TouchableOpacity onPress={() => setCurrentScreen('Screen1')} style={[styles.buttonCancelar]}>
-                            <Text style={styles.buttonText2}>Cancelar</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={GuardarDatos} style={[styles.buttonGuardar]}>
-                            <Text style={styles.buttonText2}>Guardar cambios</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            );
-        }
-        else {
-            // Pantalla 3
-            return (
-                <View style={styles.container2}>
-
-                    <View style={styles.container3}>
-                    </View>
-                    <Text style={styles.titulo3}>
-                        Cambiar de contraseña
-                    </Text>
-                    <View style={styles.container3}>
-                    </View>
-                    <Text style={styles.label}>Nueva contraseña:</Text>
-                    <TextInput style={styles.inputValue}
-                        value={password}
-                        onChangeText={setPassword}
-                        secureTextEntry={true}></TextInput>
-
-                    <Text style={styles.label}>Repita la contraseña:</Text>
-                    <TextInput style={styles.inputValue}
-                        value={password2}
-                        onChangeText={setPassword2}
-                        secureTextEntry={true}></TextInput>
-
-                    <View style={styles.container3}></View>
-
-                    <View style={styles.buttonContainer}>
-                        <TouchableOpacity onPress={() => setCurrentScreen('Screen1')} style={[styles.buttonCancelar]}>
-                            <Text style={styles.buttonText2}>Cancelar</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={GuardarContra} style={[styles.buttonGuardar]}>
-                            <Text style={styles.buttonText2}>Guardar cambios</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            );
-        }
-    };
-
-    return (
-        <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-            {renderScreen()}
-        </ScrollView>
-    );
 };
+
 
 // Diseño de la pantalla.
 const styles = StyleSheet.create({
+    button: {
+        marginTop: 20,
+        backgroundColor: "#777F47",
+        width: 260,
+        height: 40,
+        fontWeight: "900",
+        borderRadius: 50,
+        marginLeft: 35,
+        textAlign:'center',
+    },
+    buttonText: {
+        marginVertical: 7,
+        textAlign: "center",
+        alignItems: "center",
+        color: "white",
+        fontWeight: "600",
+        fontSize: 16,
+    },
     scrollViewContainer: {
         flexGrow: 1,
         justifyContent: 'center',
@@ -226,6 +271,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '500',
         marginBottom: 5,
+        textAlign:'center'
     },
     value: {
         paddingLeft: 3,
@@ -242,7 +288,7 @@ const styles = StyleSheet.create({
         borderColor: '#777F47',
         color: 'black',
         paddingLeft: 10,
-        marginRight: 100,
+        marginLeft: 50,
     },
     inputValue2: {
         backgroundColor: '#CBCBCB',
@@ -253,16 +299,8 @@ const styles = StyleSheet.create({
         borderColor: '#777F47',
         color: 'black',
         paddingLeft: 10,
-        marginRight: 100,
-    },
-    button: {
-        flex: 1,
-        paddingVertical: 10,
-        marginVertical: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 20,
-        paddingHorizontal: 20,
+        marginLeft: 50,
+        marginRight:50
     },
     buttonText: {
         fontSize: 16,
