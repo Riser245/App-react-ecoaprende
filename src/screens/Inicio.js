@@ -58,7 +58,6 @@ const Inicio = () => {
 
 
     return (
-        <ScrollView contentContainerStyle={styles.scrollContainer}>
             <View style={styles.container}>
                 <Text style={styles.subheaderText}>Categorías para lo que busques</Text>
                 <Card style={styles.card}>
@@ -67,22 +66,24 @@ const Inicio = () => {
                         <Text style={styles.textoTitulo} variant="titleLarge">Literatura</Text>
                     </Card.Content>
                 </Card>
-            </View>
-            <SafeAreaView style={styles.containerFlat}>
-                    <FlatList
-                        data={dataCategorias}
-                        keyExtractor={(item) => item.id_categoria.toString()} // Id por el que se cargan las cards
-                        renderItem={({ item }) => (
-                            <CategoriasView
-                                ip={ip}
-                                idCategoria={item.id_categoria}
-                                imagenCategoria={item.imagen_categoria}
-                                nombreCategoria={item.nombre_categoria}
-                            />
-                        )}
-                    />
-                </SafeAreaView>
-        </ScrollView>
+
+        <SafeAreaView style={styles.containerFlat}>
+        <FlatList
+            data={dataCategorias}
+            keyExtractor={(item) => item.id_categoria.toString()} // Id por el que se cargan las cards
+            renderItem={({ item }) => (
+                <CategoriasView
+                    ip={ip}
+                    idCategoria={item.id_categoria}
+                    imagenCategoria={item.imagen_categoria}
+                    nombreCategoria={item.nombre_categoria}
+                />
+            )}
+        />
+    </SafeAreaView>
+    </View>
+
+
     );
 };
 
