@@ -1,6 +1,6 @@
 // Importar Dependencias.
 import React, { useState, useEffect } from 'react';
-import {View, Text, Image, TouchableOpacity, ScrollView, StyleSheet,Alert } from 'react-native';
+import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet, Alert } from 'react-native';
 import { Button, Card } from 'react-native-paper';
 import * as Constantes from '../../api/contants';
 import UsuarioModal from '../components/Modals/UsuarioModal';
@@ -15,6 +15,8 @@ import { TextInput } from 'react-native-gesture-handler';
 import Toast from 'react-native-toast-message';
 import fetchData from '../../api/components';
 import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback } from "react";
 
 
 export default function Cuenta({ navigation }) {
@@ -29,221 +31,252 @@ export default function Cuenta({ navigation }) {
     const [direccion, setDireccion] = useState('');
     const [dui, setDui] = useState('');
     const [foto, setFotoCliente] = useState('');
-     // URL de la API para el usuario
+    // URL de la API para el usuario
 
 
-     const irInicio = () => {
+    const irInicio = () => {
         navigation.navigate("IniciarSesion");
     };
 
-     const handleLogOut = async () => {
+    const handleLogOut = async () => {
         try {
-          const data = await fetchData(USER_API, "logOut");
-          setTimeout(irInicio, 200);
-          if (data.status) {
-            console.log(data);
-          } else {
-            Alert.alert("Error sesión", data.error);
-          }
+            const data = await fetchData(USER_API, "logOut");
+            setTimeout(irInicio, 200);
+            if (data.status) {
+                console.log(data);
+            } else {
+                Alert.alert("Error sesión", data.error);
+            }
         } catch (error) {
-          console.log("Error: ", error);
-          Alert.alert("Error sesión", error);
+            console.log("Error: ", error);
+            Alert.alert("Error sesión", error);
         }
-      };
-    
+    };
 
-      const [modalType, setModalType] = useState('');
 
-      // Estado para almacenar los datos del perfil del usuario
-      const [profileData, setProfileData] = useState(null);
-  
-      // Constante que almacena la dirección IP del servidor
-      const ip = Constantes.SERVER_URL;
-  
-      // Función para obtener los datos del perfil del usuario desde el servidor
-      const getProfileData = async () => {
-          try {
-              const response = await fetch(`${ip}servicios/cliente/clientes.php?action=readOne`, {
-                  method: 'GET',
-                  credentials: 'include' // Para enviar cookies con la solicitud
-              });
-  
-              const data = await response.json();
-              console.log(data);
-              if (data.status) {
-                  // Si la solicitud es exitosa, se actualizan los estados con los datos del perfil
-                  setProfileData(data.dataset);
-                  setId(data.dataset.id_cliente);
-                  setNombre(data.dataset.nombre_cliente);
-                  setCorreo(data.dataset.correo_cliente);
-                  setDui(data.dataset.dui_cliente);
-                  setTelefono(data.dataset.telefono_cliente);
-              } else {
-                  // Si hay un error, se muestra una alerta
-                  Alert.alert('Error perfil', data.error);
-              }
-          } catch (error) {
-              // Manejo de errores en caso de que la solicitud falle
-              Alert.alert('Error', 'Ocurrió un error al obtener los datos del perfil');
-          }
-      };
-  
-      // Función para editar los datos del usuario
-      const handleEditUser = async () => {
-          try {
-  
-  
-              let localUri = foto
-              let fileName = ""
-              let match = ""
-              let type = ""
-              console.log('valor de la url:', localUri)
-              if (localUri == null || localUri == "") {
-                  Alert.alert("Selecciona una iamgen")
-              }
-              else {
-                  console.log('ejecutando filename')
-                  fileName = localUri.split('/').pop()
-                  match = /\.(\w+)$/.exec(fileName)
-                  type = match ? `image/${match[1]}` : `image`
-                  console.log(type)
-              }
-              const formData = new FormData();
-              formData.append('idCliente', idCliente);
-              formData.append('nombreCliente', nombre);
-              formData.append('correoCliente', correo);
-              formData.append('duiCliente', dui);
-              formData.append('telefonoCliente', telefono);
-  
-              const response = await fetch(`${ip}servicios/cliente/clientes.php?action=readEditProfile`, {
-                  method: 'POST',
-                  headers: {
-                      'Content-Type': 'multipart/form-data', // Se utiliza para que acepte cualquier tipo de contenido
-                      'Accept': 'application/json'
-                  },
-                  body: formData
-              });
-  
-              const responseText = await response.text(); // Obtén la respuesta como texto para depuración
-              console.log(responseText);
-  
-              const data = JSON.parse(responseText); // Asegúrate de parsear el texto a JSON
-              console.log(data);
-  
-              if (data.status) {
-                  Alert.alert('Éxito', data.message);
-                  setIsModalVisible(false);
-              } else {
-                  Alert.alert('Error', data.error);
-              }
-          } catch (error) {
-              console.error('Error al editar el usuario:', error);
-              Alert.alert('Error', `Ocurrió un error al editar el usuario: ${error.message}`);
-          }
-      };
-      // Función para abrir el modal de edición
-      const openEditModal = () => {
-          setModalType('edit');
-          setIsModalVisible(true);
-      };
-  
-      // Función para cerrar el modal
-      const closeModal = () => {
-          setIsModalVisible(false);
-      };
-  
-      // Función para manejar el envío del formulario según el tipo de modal
-      const handleSubmit = () => {
-          if (modalType === 'edit') {
-              handleEditUser();
-          } else if (modalType === 'password') {
-              handleChangePassword();
-          }
-      };
-  
-      // Uso del hook useEffect para obtener los datos del perfil cuando el componente se monta
-      useEffect(() => {
-          getProfileData();
-      }, []);
+    const [modalType, setModalType] = useState('');
 
-            return (
-                <View style={styles.container}>
-                    <View style={styles.profileContainer}>
-                        <Image
-                            source={require('../img/perfil_ecoaprende.png')}
-                            style={styles.perfil}
-                        />
-                    </View>
-                    <View style={styles.infoContainer}>
-                    <Text style={styles.label}>Nombre Cliente</Text>
-                    <Input
-                            placeHolder='Nombre Cliente'
-                            setValor={nombre}
-                            setTextChange={setNombre}
-                            editable={!isModalVisible}
-                            style={isModalVisible ? styles.inactivo : {}}
-                        />
-                    </View>
-                    <View style={styles.infoContainer}>
-                    <Text style={styles.label}>Correo electronico</Text>
-                    <InputEmail
-                            placeHolder='Email Cliente'
-                            setValor={correo}
-                            setTextChange={setCorreo}
-                            editable={!isModalVisible}
-                            style={isModalVisible ? styles.inactivo : {}}
-                        />
-                    </View>
-                    <View style={styles.infoContainer}>
-                    <Text style={styles.label}>Teléfono</Text>
-                    <MaskedInputTelefono
-                            telefono={telefono}
-                            setTelefono={setTelefono}
-                            editable={!isModalVisible}
-                            style={isModalVisible ? styles.inactivo : {}}
-                        />
-                    </View>
-                    <View style={styles.infoContainer}>
-                    <Text style={styles.label}>Dui</Text>
-                    <MaskedInputDui
-                            dui={dui}
-                            setDui={setDui}
-                            editable={!isModalVisible}
-                            style={isModalVisible ? styles.inactivo : {}}
-                        />
-                    </View>
-                    <TouchableOpacity accionBoton={openEditModal} style={styles.button}>
-                        <Text style={styles.buttonText}  >Editar datos</Text>
-                    </TouchableOpacity>
+    // Estado para almacenar los datos del perfil del usuario
+    const [profileData, setProfileData] = useState(null);
 
-                    <TouchableOpacity onPress={handleLogOut} style={styles.button}>
-                        <Text style={styles.buttonText}>Cerrar sesión</Text>
-                    </TouchableOpacity>
+    const getUser = async () => {
+        try {
+            const response = await fetch(`${ip}servicios/cliente/clientes.php?action=readProfileMovil`, {
+                method: 'GET'
+            });
+            console.log('Fetch response:', response);
+            const data = await response.json();
+            console.log('Fetch data:', data);
+            if (data.status) {
+                setNombre(data.name.nombre_cliente);
+                setCorreo(data.name.correo_cliente);
+                setDui(data.name.dui_cliente);
+                setTelefono(data.name.telefono_cliente);
+            } else {
+                Alert.alert('Error', data.error);
+                console.log(error);
+            }
+        } catch (error) {
+            Alert.alert('Error', 'Ocurrió un error al obtener los datos del usuario');
+            console.log(error);
+        }
+    };
 
-                    <UsuarioModal
-                    isVisible={isModalVisible}
-                    onClose={closeModal}
-                    onSubmit={handleSubmit}
-                    nombre={nombre}
-                    setNombre={setNombre}
-                    apellido={apellido}
-                    setApellido={setApellido}
-                    correo={correo}
-                    setCorreo={setCorreo}
-                    direccion={direccion}
-                    setDireccion={setDireccion}
-                    dui={dui}
-                    setDui={setDui}
+
+    // Constante que almacena la dirección IP del servidor
+    const ip = Constantes.SERVER_URL;
+
+    // Función para obtener los datos del perfil del usuario desde el servidor
+
+    /*
+    const getProfileData = async () => {
+        try {
+            const response = await fetch(`${ip}servicios/cliente/clientes.php?action=readOne`, {
+                method: 'GET',
+                credentials: 'include' // Para enviar cookies con la solicitud
+            });
+
+            const data = await response.json();
+            console.log(data);
+            if (data.status) {
+                // Si la solicitud es exitosa, se actualizan los estados con los datos del perfil
+                setProfileData(data.dataset);
+                setId(data.dataset.id_cliente);
+                setNombre(data.dataset.nombre_cliente);
+                setCorreo(data.dataset.correo_cliente);
+                setDui(data.dataset.dui_cliente);
+                setTelefono(data.dataset.telefono_cliente);
+            } else {
+                // Si hay un error, se muestra una alerta
+                Alert.alert('Error perfil', data.error);
+            }
+        } catch (error) {
+            // Manejo de errores en caso de que la solicitud falle
+            Alert.alert('Error', 'Ocurrió un error al obtener los datos del perfil');
+        }
+    };
+
+    */
+
+    // Función para editar los datos del usuario
+    const handleEditUser = async () => {
+        try {
+            let localUri = foto
+            let fileName = ""
+            let match = ""
+            let type = ""
+            console.log('valor de la url:', localUri)
+            if (localUri == null || localUri == "") {
+                Alert.alert("Selecciona una iamgen")
+            }
+            else {
+                console.log('ejecutando filename')
+                fileName = localUri.split('/').pop()
+                match = /\.(\w+)$/.exec(fileName)
+                type = match ? `image/${match[1]}` : `image`
+                console.log(type)
+            }
+            const formData = new FormData();
+            formData.append('idCliente', idCliente);
+            formData.append('nombreCliente', nombre);
+            formData.append('correoCliente', correo);
+            formData.append('duiCliente', dui);
+            formData.append('telefonoCliente', telefono);
+
+            const response = await fetch(`${ip}servicios/cliente/clientes.php?action=readEditProfile`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'multipart/form-data', // Se utiliza para que acepte cualquier tipo de contenido
+                    'Accept': 'application/json'
+                },
+                body: formData
+            });
+
+            const responseText = await response.text(); // Obtén la respuesta como texto para depuración
+            console.log(responseText);
+
+            const data = JSON.parse(responseText); // Asegúrate de parsear el texto a JSON
+            console.log(data);
+
+            if (data.status) {
+                Alert.alert('Éxito', data.message);
+                setIsModalVisible(false);
+            } else {
+                Alert.alert('Error', data.error);
+            }
+        } catch (error) {
+            console.error('Error al editar el usuario:', error);
+            Alert.alert('Error', `Ocurrió un error al editar el usuario: ${error.message}`);
+        }
+    };
+    // Función para abrir el modal de edición
+    const openEditModal = () => {
+        setModalType('edit');
+        setIsModalVisible(true);
+    };
+
+    // Función para cerrar el modal
+    const closeModal = () => {
+        setIsModalVisible(false);
+    };
+
+    // Función para manejar el envío del formulario según el tipo de modal
+    const handleSubmit = () => {
+        if (modalType === 'edit') {
+            handleEditUser();
+        } else if (modalType === 'password') {
+            handleChangePassword();
+        }
+    };
+
+    useFocusEffect(
+        useCallback(() => {
+            getUser();
+        }, [])
+    );
+
+    // Uso del hook useEffect para obtener los datos del perfil cuando el componente se monta
+    /*
+    useEffect(() => {
+        getProfileData();
+    }, []);
+    */
+
+    return (
+        <View style={styles.container}>
+            <View style={styles.profileContainer}>
+                <Image
+                    source={require('../img/perfil_ecoaprende.png')}
+                    style={styles.perfil}
+                />
+            </View>
+            <View style={styles.infoContainer}>
+                <Text style={styles.label}>Nombre Cliente</Text>
+                <Input
+                    placeHolder='Ingrese un nuevo nombre...'
+                    valor={nombre}
+                    setTextChange={setNombre}
+                />
+            </View>
+            <View style={styles.infoContainer}>
+                <Text style={styles.label}>Correo electronico</Text>
+                <InputEmail
+                    placeHolder='Email Cliente'
+                    setValor={correo}
+                    setTextChange={setCorreo}
+                    editable={!isModalVisible}
+                    style={isModalVisible ? styles.inactivo : {}}
+                />
+            </View>
+            <View style={styles.infoContainer}>
+                <Text style={styles.label}>Teléfono</Text>
+                <MaskedInputTelefono
                     telefono={telefono}
                     setTelefono={setTelefono}
-                    fotoo={foto}
-                    setFotoo={setFotoCliente}
-                    modalType={modalType}
+                    editable={!isModalVisible}
+                    style={isModalVisible ? styles.inactivo : {}}
                 />
+            </View>
+            <View style={styles.infoContainer}>
+                <Text style={styles.label}>Dui</Text>
+                <MaskedInputDui
+                    dui={dui}
+                    setDui={setDui}
+                    editable={!isModalVisible}
+                    style={isModalVisible ? styles.inactivo : {}}
+                />
+            </View>
+            <TouchableOpacity accionBoton={openEditModal} style={styles.button}>
+                <Text style={styles.buttonText}  >Editar datos</Text>
+            </TouchableOpacity>
 
+            <TouchableOpacity onPress={handleLogOut} style={styles.button}>
+                <Text style={styles.buttonText}>Cerrar sesión</Text>
+            </TouchableOpacity>
 
-                </View>
-            );
+            <UsuarioModal
+                isVisible={isModalVisible}
+                onClose={closeModal}
+                onSubmit={handleSubmit}
+                nombre={nombre}
+                setNombre={setNombre}
+                apellido={apellido}
+                setApellido={setApellido}
+                correo={correo}
+                setCorreo={setCorreo}
+                direccion={direccion}
+                setDireccion={setDireccion}
+                dui={dui}
+                setDui={setDui}
+                telefono={telefono}
+                setTelefono={setTelefono}
+                fotoo={foto}
+                setFotoo={setFotoCliente}
+                modalType={modalType}
+            />
+
+        </View>
+    );
 };
 
 
@@ -257,7 +290,7 @@ const styles = StyleSheet.create({
         fontWeight: "900",
         borderRadius: 50,
         marginLeft: 65,
-        textAlign:'center',
+        textAlign: 'center',
     },
     buttonText: {
         marginVertical: 7,
@@ -305,7 +338,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '500',
         marginBottom: 5,
-        textAlign:'center'
+        textAlign: 'center'
     },
     value: {
         paddingLeft: 3,
@@ -334,7 +367,7 @@ const styles = StyleSheet.create({
         color: 'black',
         paddingLeft: 10,
         marginLeft: 50,
-        marginRight:50
+        marginRight: 50
     },
     buttonText: {
         fontSize: 16,
