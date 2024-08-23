@@ -28,8 +28,6 @@ export default function Cuenta({ navigation }) {
     const [direccion, setDireccion] = useState('');
     const [dui, setDui] = useState('');
     const [foto, setFotoCliente] = useState('');
-    const [clave, setClave] = useState('');
-    const [confirmarClave, setConfirmar] = useState('');
      // URL de la API para el usuario
      
 
@@ -182,32 +180,77 @@ export default function Cuenta({ navigation }) {
                         />
                     </View>
                     <View style={styles.infoContainer}>
-                        <Text style={styles.label}>Nombre</Text>
-                        <TextInput style={styles.inputValue} placeholder='Jose'></TextInput>
+                    <Input
+                            placeHolder='Nombre Cliente'
+                            setValor={nombre}
+                            setTextChange={setNombre}
+                            editable={!isModalVisible}
+                            style={isModalVisible ? styles.inactivo : {}}
+                        />
                     </View>
                     <View style={styles.infoContainer}>
-                        <Text style={styles.label}>Correo electrónico</Text>
-                        <TextInput style={styles.inputValue} placeholder='josesitpro777@gmail.com'></TextInput>
+                    <InputEmail
+                            placeHolder='Email Cliente'
+                            setValor={correo}
+                            setTextChange={setCorreo}
+                            editable={!isModalVisible}
+                            style={isModalVisible ? styles.inactivo : {}}
+                        />
                     </View>
                     <View style={styles.infoContainer}>
-                        <Text style={styles.label}>Telefóno</Text>
-                        <TextInput style={styles.inputValue} placeholder='7777-8888'></TextInput>
+                    <MaskedInputTelefono
+                            telefono={telefono}
+                            setTelefono={setTelefono}
+                            editable={!isModalVisible}
+                            style={isModalVisible ? styles.inactivo : {}}
+                        />
                     </View>
                     <View style={styles.infoContainer}>
-                        <Text style={styles.label}>DUI</Text>
-                        <TextInput style={styles.inputValue} placeholder='11111111-1'></TextInput>
+                    <MaskedInputDui
+                            dui={dui}
+                            setDui={setDui}
+                            editable={!isModalVisible}
+                            style={isModalVisible ? styles.inactivo : {}}
+                        />
                     </View>
                     <View style={styles.infoContainer}>
                         <Text style={styles.label}>Clave</Text>
                         <TextInput style={styles.inputValue2} placeholder='********'></TextInput>
                     </View>
                     <TouchableOpacity style={styles.button}>
-                        <Text style={styles.buttonText}>Editar datos</Text>
+                        <Text style={styles.buttonText}  accionBoton={openEditModal}>Editar datos</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={handleLogOut} style={styles.button}>
                         <Text style={styles.buttonText}>Cerrar sesión</Text>
                     </TouchableOpacity>
+
+                    <UsuarioModal
+                    isVisible={isModalVisible}
+                    onClose={closeModal}
+                    onSubmit={handleSubmit}
+                    nombre={nombre}
+                    setNombre={setNombre}
+                    apellido={apellido}
+                    setApellido={setApellido}
+                    correo={correo}
+                    setCorreo={setCorreo}
+                    direccion={direccion}
+                    setDireccion={setDireccion}
+                    dui={dui}
+                    setDui={setDui}
+                    telefono={telefono}
+                    setTelefono={setTelefono}
+                    fotoo={foto}
+                    setFotoo={setFotoCliente}
+                    clave={clave}
+                    setClave={setClave}
+                    confirmarClave={confirmarClave}
+                    setConfirmarClave={setConfirmar}
+                    modalType={modalType}
+                />
+
+
                 </View>
             );
 };
