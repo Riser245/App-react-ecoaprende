@@ -1,4 +1,4 @@
-export const ip = `10.10.1.16`; 
+export const ip = `10.10.1.125`; 
 export const SERVER_URL = `http://${ip}/ecoaprende/api/`;
 export const IMAGES_URL = `http://${ip}/ecoaprende/api/imagenes/`;
 

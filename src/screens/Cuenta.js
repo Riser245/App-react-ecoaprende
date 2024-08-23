@@ -25,7 +25,6 @@ export default function Cuenta({ navigation }) {
     // Estados para almacenar los datos del usuario
     const [idCliente, setId] = useState('');
     const [nombre, setNombre] = useState('');
-    const [apellido, setApellido] = useState('');
     const [telefono, setTelefono] = useState('');
     const [correo, setCorreo] = useState('');
     const [direccion, setDireccion] = useState('');
@@ -213,9 +212,11 @@ export default function Cuenta({ navigation }) {
             <View style={styles.infoContainer}>
                 <Text style={styles.label}>Nombre Cliente</Text>
                 <Input
-                    placeHolder='Ingrese un nuevo nombre...'
+                    placeHolder='Nombre'
                     valor={nombre}
                     setTextChange={setNombre}
+                    editable={!isModalVisible}
+                    style={isModalVisible ? styles.inactivo : {}}
                 />
             </View>
             <View style={styles.infoContainer}>
@@ -260,8 +261,6 @@ export default function Cuenta({ navigation }) {
                 onSubmit={handleSubmit}
                 nombre={nombre}
                 setNombre={setNombre}
-                apellido={apellido}
-                setApellido={setApellido}
                 correo={correo}
                 setCorreo={setCorreo}
                 direccion={direccion}
