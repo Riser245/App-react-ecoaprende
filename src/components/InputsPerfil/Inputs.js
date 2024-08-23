@@ -15,13 +15,15 @@ export default function Inputs({ placeHolder, setValor, contra, setTextChange })
 
 const styles = StyleSheet.create({
   input: {
-    backgroundColor: '#FCF9F9',
-    borderBottomColor: '#000', // Color del borde inferior
-    color: '#000', // Color del texto
-    fontWeight: '800',
-    width: 160,
-    borderRadius: 25,
-    padding: 5,
-    marginVertical: 10
+    backgroundColor: '#CBCBCB',
+        width: 220,
+        height: 30,
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: '#777F47',
+        color: 'black',
+        paddingLeft: 10,
+        marginLeft: 85,
+        marginRight:50
   },
 });

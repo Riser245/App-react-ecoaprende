@@ -20,17 +20,16 @@ export default function MaskedInputTelefono({ telefono, setTelefono }) {
 
 const styles = StyleSheet.create({
     Input: {
-        backgroundColor: '#FCF9F9',
-        borderBottomColor: '#000', // Color del borde inferior
-        borderBottomWidth: 1, // Ancho del borde inferior
-        color: '#000', // Color del texto
-        fontWeight: '800',
-        width: '100%',
-        marginTop: 10,
-        borderColor: 'transparent',
-        borderRadius: 25,
-        padding: 5,
-        marginVertical: 10
+        backgroundColor: '#CBCBCB',
+        width: 220,
+        height: 30,
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: '#777F47',
+        color: 'black',
+        paddingLeft: 10,
+        marginLeft: 85,
+        marginRight:50
     },
 
 });

@@ -14,6 +14,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { TextInput } from 'react-native-gesture-handler';
 import Toast from 'react-native-toast-message';
 import fetchData from '../../api/components';
+import { useNavigation } from '@react-navigation/native';
 
 
 export default function Cuenta({ navigation }) {
@@ -29,7 +30,11 @@ export default function Cuenta({ navigation }) {
     const [dui, setDui] = useState('');
     const [foto, setFotoCliente] = useState('');
      // URL de la API para el usuario
-     
+
+
+     const irInicio = () => {
+        navigation.navigate("IniciarSesion");
+    };
 
      const handleLogOut = async () => {
         try {
@@ -53,7 +58,7 @@ export default function Cuenta({ navigation }) {
       const [profileData, setProfileData] = useState(null);
   
       // Constante que almacena la dirección IP del servidor
-      const ip = Constantes.IP;
+      const ip = Constantes.SERVER_URL;
   
       // Función para obtener los datos del perfil del usuario desde el servidor
       const getProfileData = async () => {
@@ -70,12 +75,9 @@ export default function Cuenta({ navigation }) {
                   setProfileData(data.dataset);
                   setId(data.dataset.id_cliente);
                   setNombre(data.dataset.nombre_cliente);
-                  setApellido(data.dataset.apellido_cliente);
                   setCorreo(data.dataset.correo_cliente);
-                  setDireccion(data.dataset.direccion_cliente);
                   setDui(data.dataset.dui_cliente);
                   setTelefono(data.dataset.telefono_cliente);
-                  setFotoCliente(`${ip}/ecoaprende/api/imagenes/clientes/${data.dataset.foto_cliente}`);
               } else {
                   // Si hay un error, se muestra una alerta
                   Alert.alert('Error perfil', data.error);
@@ -109,16 +111,9 @@ export default function Cuenta({ navigation }) {
               const formData = new FormData();
               formData.append('idCliente', idCliente);
               formData.append('nombreCliente', nombre);
-              formData.append('apellidoCliente', apellido);
               formData.append('correoCliente', correo);
-              formData.append('direccionCliente', direccion);
               formData.append('duiCliente', dui);
               formData.append('telefonoCliente', telefono);
-              formData.append('fotoInput', {
-                  uri: localUri,
-                  name: foto,
-                  type// Ajusta el tipo según corresponda
-              });
   
               const response = await fetch(`${ip}servicios/cliente/clientes.php?action=readEditProfile`, {
                   method: 'POST',
@@ -180,6 +175,7 @@ export default function Cuenta({ navigation }) {
                         />
                     </View>
                     <View style={styles.infoContainer}>
+                    <Text style={styles.label}>Nombre Cliente</Text>
                     <Input
                             placeHolder='Nombre Cliente'
                             setValor={nombre}
@@ -189,6 +185,7 @@ export default function Cuenta({ navigation }) {
                         />
                     </View>
                     <View style={styles.infoContainer}>
+                    <Text style={styles.label}>Correo electronico</Text>
                     <InputEmail
                             placeHolder='Email Cliente'
                             setValor={correo}
@@ -198,6 +195,7 @@ export default function Cuenta({ navigation }) {
                         />
                     </View>
                     <View style={styles.infoContainer}>
+                    <Text style={styles.label}>Teléfono</Text>
                     <MaskedInputTelefono
                             telefono={telefono}
                             setTelefono={setTelefono}
@@ -206,6 +204,7 @@ export default function Cuenta({ navigation }) {
                         />
                     </View>
                     <View style={styles.infoContainer}>
+                    <Text style={styles.label}>Dui</Text>
                     <MaskedInputDui
                             dui={dui}
                             setDui={setDui}
@@ -213,12 +212,8 @@ export default function Cuenta({ navigation }) {
                             style={isModalVisible ? styles.inactivo : {}}
                         />
                     </View>
-                    <View style={styles.infoContainer}>
-                        <Text style={styles.label}>Clave</Text>
-                        <TextInput style={styles.inputValue2} placeholder='********'></TextInput>
-                    </View>
-                    <TouchableOpacity style={styles.button}>
-                        <Text style={styles.buttonText}  accionBoton={openEditModal}>Editar datos</Text>
+                    <TouchableOpacity accionBoton={openEditModal} style={styles.button}>
+                        <Text style={styles.buttonText}  >Editar datos</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={handleLogOut} style={styles.button}>
@@ -243,10 +238,6 @@ export default function Cuenta({ navigation }) {
                     setTelefono={setTelefono}
                     fotoo={foto}
                     setFotoo={setFotoCliente}
-                    clave={clave}
-                    setClave={setClave}
-                    confirmarClave={confirmarClave}
-                    setConfirmarClave={setConfirmar}
                     modalType={modalType}
                 />
 
@@ -265,7 +256,7 @@ const styles = StyleSheet.create({
         height: 40,
         fontWeight: "900",
         borderRadius: 50,
-        marginLeft: 35,
+        marginLeft: 65,
         textAlign:'center',
     },
     buttonText: {
