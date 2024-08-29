@@ -99,7 +99,7 @@ export default function Productos({ navigation }) {
     }, []);
   
     const irCarrito = () => {
-      navigation.navigate('Carrito')
+      navigation.navigate('NavBottom')
     }
   
   

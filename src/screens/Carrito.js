@@ -1,231 +1,177 @@
 // Importar Dependencias.
-import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Image,  FlatList, Alert, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 
+import { useFocusEffect } from '@react-navigation/native';
+// Importa la función useFocusEffect de @react-navigation/native, 
+// que permite ejecutar un efecto cada vez que la pantalla se enfoca.
 
-const Carrito = () => {
+import Constants from 'expo-constants';
+import * as Constantes from '../../api/contants';
+import Buttons from '../components/Buttons/Button';
+import CarritoCard from '../components/DetailProductCart/CarritoCard';
+import ModalEditarCantidad from '../components/Modals/ModalEditarCantidad';
 
-    const navigation = useNavigation();
+const Carrito = ({navigation}) => {
+// Estado para almacenar los detalles del carrito
+const [dataDetalleCarrito, setDataDetalleCarrito] = useState([]);
+// Estado para el id del detalle seleccionado para modificar
+const [idDetalle, setIdDetalle] = useState(null);
+// Estado para la cantidad del producto seleccionado en el carrito
+const [cantidadProductoCarrito, setCantidadProductoCarrito] = useState(0);
+// Estado para controlar la visibilidad del modal de edición de cantidad
+const [modalVisible, setModalVisible] = useState(false);
+// IP del servidor
+const ip = Constantes.IP;
 
-    // Metodos de navegación.
-    const irInicio = async () => {
-        navigation.navigate('Inicio')
-    };
-
-    const irOrdenes = async () => {
-        navigation.navigate('Ordenes')
-    };
-
-    return (
-        <ScrollView contentContainerStyle={styles.scrollContainer}>
-            <View style={styles.container}>
-                <Text style={styles.subheaderText}>Productos listos para ser adquiridos</Text>
-                <View style={styles.middle} />
-                <View style={styles.productContainer}>
-                    <View style={styles.productCard}>
-                        <Image source={require('../img/libros.png')} style={styles.imagenProducto} />
-                        <View style={styles.productDetails}>
-                            <Text style={styles.productTitle}>Libro 1</Text>
-                            <Text style={styles.productSubtitle}>Precio:$20</Text>
-                            <Text style={styles.productPrice}>Cantidad a comprar:2</Text>
-                            <View style={styles.quantityContainer}>
-                                <TouchableOpacity style={styles.minusButton}>
-                                    <FontAwesome name="minus" size={24} color="white" />
-                                </TouchableOpacity>
-                                <Text style={styles.quantityText}>1</Text>
-                                <TouchableOpacity style={styles.plusButton}>
-                                    <FontAwesome name="plus" size={24} color="white" />
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </View>
-                    <View style={styles.productCard}>
-                        <Image source={require('../img/libros.png')} style={styles.imagenProducto} />
-                        <View style={styles.productDetails}>
-                            <Text style={styles.productTitle}>Libro 2</Text>
-                            <Text style={styles.productSubtitle}>Precio:$20</Text>
-                            <Text style={styles.productPrice}>Cantidad a comprar:2</Text>
-                            <View style={styles.quantityContainer}>
-                                <TouchableOpacity style={styles.minusButton}>
-                                    <FontAwesome name="minus" size={24} color="white" />
-                                </TouchableOpacity>
-                                <Text style={styles.quantityText}>1</Text>
-                                <TouchableOpacity style={styles.plusButton}>
-                                    <FontAwesome name="plus" size={24} color="white" />
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </View>
-                </View>
-
-                <View style={styles.priceContainer}>
-                    <View style={styles.priceRow}>
-                        <Text style={styles.priceLabel}>Total:</Text>
-                        <Text style={styles.priceValue}>$ 40.00</Text>
-                    </View>
-                </View>
-
-                <TouchableOpacity style={styles.confirmButton} onPress={irOrdenes}>
-                    <Text style={styles.confirmButtonText}>Comprar</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.addMoreButton} onPress={irInicio}>
-                    <Text style={styles.addMoreText}>Continuar comprando</Text>
-                </TouchableOpacity>
-            </View>
-        </ScrollView>
-    );
+// Función para navegar hacia atrás a la pantalla de productos
+const backProducts = () => {
+  navigation.navigate('Productos');
 };
 
-// Diseño de la pantalla.
-const styles = StyleSheet.create({
-    scrollContainer: {
-        backgroundColor: 'white',
-        paddingVertical: 20,
-        paddingHorizontal: 15,
-    },
-    container: {
-        backgroundColor: 'white',
-        flex: 1,
-        alignItems: 'center',
-        padding: 20,
-    },
-    middle: {
-        flex: 0.3,
-        backgroundColor: 'black',
-        borderWidth: 2,
-        marginTop:20,
-        marginBottom:20,
-        
-      },
-    headerText: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 20,
-        color: 'white',
-        backgroundColor: '#777F47',
-    },
-    subheaderText: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: '#777F47',
-        width:200,
-        textAlign:'center',
-    },
-    productContainer: {
-        width: '110%',
-    },
-    productCard: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: '#F9F9F9',
-        borderRadius: 10,
-        padding: 10,
-        marginBottom: 15,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        elevation: 3,
-    },
-    imagenProducto: {
-        width: 100,
-        height: 100,
-        borderRadius: 0,
-    },
-    productDetails: {
-        flex: 1,
-        marginLeft: 20,
-    },
-    productTitle: {
-        fontSize: 18,
-        fontWeight: 'bold',
-    },
-    productSubtitle: {
-        fontSize: 14,
-        color: 'black',
-    },
-    productPrice: {
-        fontSize: 16,
-        color: 'black',
-        marginBottom: 10,
-    },
-    quantityContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    plusButton: {
-        backgroundColor: '#777F47',
-        borderRadius: 5,
-        padding: 5,
-        marginHorizontal: 5,
-    },
-    minusButton: {
-        backgroundColor: '#FF5552',
-        borderRadius: 5,
-        padding: 5,
-        marginHorizontal: 5,
-    },
-    quantityText: {
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
-    addMoreButton: {
-        backgroundColor: '#777F47',
-        padding: 15,
-        borderRadius: 15,
-        width: '100%',
-        alignItems: 'center',
-        marginTop:10
-    },
-    addMoreText: {
-        color: 'black',
-        fontWeight: 'bold',
-        fontSize: 16,
-    },
-    priceContainer: {
-        backgroundColor: '#F9F9F9',
-        borderRadius: 10,
-        padding: 15,
-        marginVertical: 20,
-        width: '100%',
-        alignItems: 'flex-start',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        elevation: 3,
-    },
-    priceRow: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: '100%',
-        marginBottom: 5,
-    },
-    priceLabel: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: '#333',
-    },
-    priceValue: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: '#777F47',
-    },
-    confirmButton: {
-        backgroundColor: '#777F47',
-        padding: 15,
-        borderRadius: 15,
-        width: '100%',
-        alignItems: 'center',
-    },
-    confirmButtonText: {
-        color: 'black',
-        fontWeight: 'bold',
-        fontSize: 16,
-    },
-});
+// Efecto para cargar los detalles del carrito al cargar la pantalla o al enfocarse en ella
+useFocusEffect(
+  // La función useFocusEffect ejecuta un efecto cada vez que la pantalla se enfoca.
+  React.useCallback(() => {
+    getDetalleCarrito(); // Llama a la función getDetalleCarrito.
+  }, [])
+);
+
+// Función para obtener los detalles del carrito desde el servidor
+const getDetalleCarrito = async () => {
+  try {
+    const response = await fetch(`${ip}/coffeeshop/api/services/public/pedido.php?action=readDetail`, {
+      method: 'GET',
+    });
+    const data = await response.json();
+    console.log(data, "Data desde getDetalleCarrito")
+    if (data.status) {
+      setDataDetalleCarrito(data.dataset);
+    } else {
+      console.log("No hay detalles del carrito disponibles")
+      //Alert.alert('ADVERTENCIA', data.error);
+    }
+  } catch (error) {
+    console.error(error, "Error desde Catch");
+    Alert.alert('Error', 'Ocurrió un error al listar las categorias');
+  }
+};
+
+// Función para finalizar el pedido
+const finalizarPedido = async () => {
+  try {
+    const response = await fetch(`${ip}/coffeeshop/api/services/public/pedido.php?action=finishOrder`, {
+      method: 'GET',
+    });
+    const data = await response.json();
+    if (data.status) {
+      Alert.alert("Se finalizó la compra correctamente")
+      setDataDetalleCarrito([]); // Limpia la lista de detalles del carrito
+      navigation.navigate('TabNavigator', { screen: 'Productos' });
+    } else {
+      Alert.alert('Error', data.error);
+    }
+  } catch (error) {
+    Alert.alert('Error', 'Ocurrió un error al finalizar pedido');
+  }
+};
+
+// Función para manejar la modificación de un detalle del carrito
+const handleEditarDetalle = (idDetalle, cantidadDetalle) => {
+  setModalVisible(true);
+  setIdDetalle(idDetalle);
+  setCantidadProductoCarrito(cantidadDetalle);
+};
+
+// Función para renderizar cada elemento del carrito
+const renderItem = ({ item }) => (
+  <CarritoCard
+    item={item}
+    cargarCategorias={getDetalleCarrito}
+    modalVisible={modalVisible}
+    setModalVisible={setModalVisible}
+    setCantidadProductoCarrito={setCantidadProductoCarrito}
+    cantidadProductoCarrito={cantidadProductoCarrito}
+    idDetalle={idDetalle}
+    setIdDetalle={setIdDetalle}
+    accionBotonDetalle={handleEditarDetalle}
+    getDetalleCarrito={getDetalleCarrito}
+    updateDataDetalleCarrito={setDataDetalleCarrito} // Nueva prop para actualizar la lista
+  />
+);
+
+return (
+  <View style={styles.container}>
+    {/* Componente de modal para editar cantidad */}
+    <ModalEditarCantidad
+      setModalVisible={setModalVisible}
+      modalVisible={modalVisible}
+      idDetalle={idDetalle}
+      setIdDetalle={setIdDetalle}
+      setCantidadProductoCarrito={setCantidadProductoCarrito}
+      cantidadProductoCarrito={cantidadProductoCarrito}
+      getDetalleCarrito={getDetalleCarrito}
+    />
+
+    {/* Título de la pantalla */}
+    <Text style={styles.title}>Carrito de Compras</Text>
+
+    {/* Lista de detalles del carrito */}
+    {dataDetalleCarrito.length > 0 ? (
+      <FlatList
+        data={dataDetalleCarrito}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id_detalle.toString()}
+      />
+    ) : (
+      <Text style={styles.titleDetalle}>No hay detalles del carrito disponibles.</Text>
+    )}
+
+    {/* Botones de finalizar pedido y regresar a productos */}
+    <View style={styles.containerButtons}>
+      {dataDetalleCarrito.length > 0 && (
+        <Buttons
+          textoBoton='Finalizar Pedido'
+          accionBoton={finalizarPedido}
+        />
+      )}
+      <Buttons
+        textoBoton='Regresar a productos'
+        accionBoton={backProducts}
+      />
+    </View>
+  </View>
+);
+};
 
 export default Carrito;
+
+// Estilos
+const styles = StyleSheet.create({
+container: {
+  flex: 1,
+  backgroundColor: 'white',
+  paddingTop: Constants.statusBarHeight,
+  paddingHorizontal: 16,
+},
+title: {
+  fontSize: 24,
+  fontWeight: 'bold',
+  textAlign: 'center',
+  marginVertical: 16,
+  color: 'black',
+},
+titleDetalle: {
+  fontSize: 20,
+  fontWeight: '600',
+  textAlign: 'center',
+  marginVertical: 16,
+  color: 'black',
+},
+containerButtons: {
+  justifyContent: 'center',
+  alignItems: 'center',
+}
+});
