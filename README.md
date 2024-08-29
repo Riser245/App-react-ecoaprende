@@ -22,17 +22,16 @@ Secretario: José Miguel Ángel Castillo.
 7. npm install @expo/vector-icons
 8. npm install react-native-masked-text
 9. npm install @react-navigation/bottom-tabs
-10. npm install react-native-screens react-native-safe-area-context
-11. npm i @react-navigation/stack
-12. npm install expo@~50.0.19
-13. npm install react-native-safe-area-context@4.8.2
-14. npm install react-native-screens@~3.29.0
-15. npm install react-native-toast-message
-16. npm install @react-native-community/masked-view
-17. npm install react-native-gesture-handler@~2.14.0
-18. npm install
-19. npx expo start --clear
-20. npx expo start
+10. npm i @react-navigation/stack
+11. npm install expo@~50.0.19
+12. npm install react-native-safe-area-context@4.8.2
+13. npm install react-native-screens@~3.29.0
+14. npm install react-native-toast-message
+15. npm install @react-native-community/masked-view
+16. npm install react-native-gesture-handler@~2.14.0
+17. npm install
+18. npx expo start --clear
+19. npx expo start
 
 Licencias Creative Commons a usar en nuestro 
 proyecto:

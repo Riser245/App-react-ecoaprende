@@ -110,7 +110,7 @@ const RegisterScreen = ({ navigation }) => {
                     </TouchableOpacity>
                     <Text onPress={irInicio} style={styles.buttonText2}> Regresar al login</Text>
                 </View>
-                <Toast ref={(ref) => Toast.setRef(ref)} />
+                <Toast ref={(ref) => Toast.setfowardRef(ref)} />
             </View>
         </ScrollView>
     );

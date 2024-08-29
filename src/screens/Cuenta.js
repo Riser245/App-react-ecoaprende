@@ -213,7 +213,7 @@ export default function Cuenta({ navigation }) {
                 <Text style={styles.label}>Nombre Cliente</Text>
                 <Input
                     placeHolder='Nombre'
-                    valor={nombre}
+                    setValor={nombre}
                     setTextChange={setNombre}
                     editable={!isModalVisible}
                     style={isModalVisible ? styles.inactivo : {}}
