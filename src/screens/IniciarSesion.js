@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "black",
     fontWeight: "600",
-    fontSize: 10,
+    fontSize: 14,
     marginTop: 20,
   },
   buttonText3: {

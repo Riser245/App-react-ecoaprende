@@ -1,13 +1,50 @@
 // Importar Dependencias.
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Alert, TextInput } from 'react-native';
 import { useState } from 'react';
+import * as Constantes from '../../api/contants';
 
 export default function Recup1({ navigation }) {
 
     // Navegación entre pantallas.
     const irInicio = () => {
         navigation.navigate('InicioSesion');
+    };
+
+    const ip = Constantes.SERVER_URL;
+    const [clienteEmail, setEmail] = useState('');
+
+    const volverInicio = async () => {
+        navigation.navigate("IniciarSesion");
+      };
+
+    const enviarCodigo = async () => {
+        if (!clienteEmail.trim()) {
+            Alert.alert("Por favor, ingresa tu correo electrónico.");
+            return;
+        }
+
+        try {
+            const formData = new FormData();
+            formData.append('clienteEmail', clienteEmail.trim());
+
+            const response = await fetch(`${ip}auxiliar/recup_correo.php`, {
+                method: 'POST',
+                body: formData,
+            });
+
+            const result = await response.json();
+
+            if (result.status) {
+                Alert.alert('Código enviado', 'Revise su correo electrónico.');
+                navigation.navigate('Codigo'); // Navega a la pantalla "Codigo"
+            } else {
+                Alert.alert('Error', result.message || 'No se pudo enviar el código.');
+            }
+        } catch (error) {
+            console.error('Error en la solicitud:', error);
+            Alert.alert('Error', 'Ocurrió un error al enviar el código.');
+        }
     };
 
     return (
@@ -22,11 +59,13 @@ export default function Recup1({ navigation }) {
                 <TextInput
                     placeholder="Correo electrónico:"
                     placeholderTextColor={"#000"}
+                    value={clienteEmail}
+                    onChangeText={setEmail}
                     style={styles.cuadroTextoG}
                     keyboardType="email-address" />
             </View>
             <View style={styles.container2}>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={enviarCodigo}>
                     <Text style={styles.buttonText}> Recuperar </Text>
                 </TouchableOpacity>
             </View>
@@ -57,7 +96,7 @@ const styles = StyleSheet.create({
         color: "black",
         marginBottom: 10,
         marginTop: 10,
-        borderColor: " #777F47",
+        borderColor: "#777F47",
         borderWidth: 2
     },
     button: {
