@@ -3,14 +3,12 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet, Alert } from 'react-native';
 import { Button, Card } from 'react-native-paper';
 import * as Constantes from '../../api/contants';
-import UsuarioModal from '../components/Modals/UsuarioModal';
 import Input from '../components/InputsPerfil/Inputs';
 import InputMultiline from '../components/InputsPerfil/InputMultiline';
 import MaskedInputTelefono from '../components/InputsPerfil/MaskedInputTelefono';
 import MaskedInputDui from '../components/InputsPerfil/MaskedInputDui';
 import InputEmail from '../components/InputsPerfil/InputEmail';
 import Buttons from '../components/InputsPerfil/Buttons/Button';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { TextInput } from 'react-native-gesture-handler';
 import Toast from 'react-native-toast-message';
 import fetchData from '../../api/components';
@@ -19,138 +17,103 @@ import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from "react";
 
 
-export default function Cuenta({ navigation }) {
+export default function EditCuenta({ navigation }) {
     const USER_API = 'servicios/cliente/clientes.php';
     // Estados para almacenar los datos del usuario
+    const ip = Constantes.SERVER_URL;
+
+    // URL de la API para el usuario
     const [idCliente, setId] = useState('');
     const [nombre, setNombre] = useState('');
     const [telefono, setTelefono] = useState('');
     const [correo, setCorreo] = useState('');
-    const [direccion, setDireccion] = useState('');
     const [dui, setDui] = useState('');
     const [foto, setFotoCliente] = useState('');
-    // URL de la API para el usuario
 
+  // Expresiones regulares para validar DUI y teléfono
+  const duiRegex = /^\d{8}-\d$/;
+  const telefonoRegex = /^\d{4}-\d{4}$/;
 
-    const irInicio = () => {
-        navigation.navigate("IniciarSesion");
-    };
-
-   
-
-    const irEdit = () => {
-        navigation.navigate('EditUsuario');
-      };
-
-    const handleLogOut = async () => {
-        try {
-            const data = await fetchData(USER_API, "logOut");
-            setTimeout(irInicio, 200);
-            if (data.status) {
-                console.log(data);
-            } else {
-                Alert.alert("Error sesión", data.error);
-            }
-        } catch (error) {
-            console.log("Error: ", error);
-            Alert.alert("Error sesión", error);
+  // Funcion para llenar los inputs con los datos del usuario
+  const fillData = async () => {
+    try {
+        const response = await fetch(`${ip}servicios/cliente/clientes.php?action=readProfileMovil`, {
+            method: 'GET'
+        });
+        const data = await response.json();
+        console.log("Datos a actualizar", data);
+        if (data.status) {
+            setNombre(data.name.nombre_cliente);
+            setCorreo(data.name.correo_cliente);
+            setDui(data.name.dui_cliente);
+            setTelefono(data.name.telefono_cliente);
+        } else {
+            Alert.alert('Error', data.error);
         }
-    };
+    } catch (error) {
+        Alert.alert('Ocurrió un error al intentar obtener los datos del usuario');
+    }
+  };
 
+  // Logica para cargar los datos del usuario al cargar la pantalla
+  useFocusEffect(
+    React.useCallback(() => {
+        fillData();
+    }, [])
+  );
+
+  const editProfile = async () => {
+    try {
+        console.log("Datos a enviar", nombre, correo, dui, telefono)
+
+        // Validar los campos
+        if (!nombre.trim() || !correo.trim() || 
+            !dui.trim() || !telefono.trim()) {
+            Alert.alert("Debes llenar todos los campos");
+            return;
+        } else if (!duiRegex.test(dui)) {
+            Alert.alert("El DUI debe tener el formato correcto (########-#)");
+            return;
+        } else if (!telefonoRegex.test(telefono)) {
+            Alert.alert("El teléfono debe tener el formato correcto (####-####)");
+            return;
+        }
+
+        // Si todos los campos son válidos, proceder con la creación del usuario
+        const formData = new FormData();
+        formData.append('nombreCliente', nombre);
+        formData.append('correoCliente', correo);
+        formData.append('telefonoCliente', telefono);
+        formData.append('duiCliente', dui);
+
+        const response = await fetch(`${ip}servicios/cliente/clientes.php?action=updateRow`, {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await response.json();
+        console.log(data, "Data desde Editar Perfil OK")
+        if (data.status) {
+            console.log(data, 'Valor de editar perfil OK')
+            Alert.alert('Perfil editado correctamente', '', [
+                { text: 'OK', onPress: () => fillData() },
+            ], { icon: 'success' });
+        } else {
+            Alert.alert('Error', data.error);
+        }
+    } catch (error) {
+        Alert.alert('Ocurrió un error al intentar editar el usuario');
+    }
+  };
+
+    const irUser = () => {
+        navigation.navigate("NavBottom");
+    };
 
     const [modalType, setModalType] = useState('');
 
     // Estado para almacenar los datos del perfil del usuario
     const [profileData, setProfileData] = useState(null);
-
-    const getUser = async () => {
-        try {
-            const response = await fetch(`${ip}servicios/cliente/clientes.php?action=readProfileMovil`, {
-                method: 'GET'
-            });
-            console.log('Fetch response:', response);
-            const data = await response.json();
-            console.log('Fetch data:', data);
-            if (data.status) {
-                setNombre(data.name.nombre_cliente);
-                setCorreo(data.name.correo_cliente);
-                setDui(data.name.dui_cliente);
-                setTelefono(data.name.telefono_cliente);
-            } else {
-                Alert.alert('Error', data.error);
-                console.log(error);
-            }
-        } catch (error) {
-            Alert.alert('Error', 'Ocurrió un error al obtener los datos del usuario');
-            console.log(error);
-        }
-    };
-    
-
-
-    // Constante que almacena la dirección IP del servidor
-    const ip = Constantes.SERVER_URL;
-
-    // Función para obtener los datos del perfil del usuario desde el servidor
-
-    /*
-    const getProfileData = async () => {
-        try {
-            const response = await fetch(`${ip}servicios/cliente/clientes.php?action=readOne`, {
-                method: 'GET',
-                credentials: 'include' // Para enviar cookies con la solicitud
-            });
-
-            const data = await response.json();
-            console.log(data);
-            if (data.status) {
-                // Si la solicitud es exitosa, se actualizan los estados con los datos del perfil
-                setProfileData(data.dataset);
-                setId(data.dataset.id_cliente);
-                setNombre(data.dataset.nombre_cliente);
-                setCorreo(data.dataset.correo_cliente);
-                setDui(data.dataset.dui_cliente);
-                setTelefono(data.dataset.telefono_cliente);
-            } else {
-                // Si hay un error, se muestra una alerta
-                Alert.alert('Error perfil', data.error);
-            }
-        } catch (error) {
-            // Manejo de errores en caso de que la solicitud falle
-            Alert.alert('Error', 'Ocurrió un error al obtener los datos del perfil');
-        }
-    };
-
-    */
-
-    
-
-    // Función para cerrar el modal
-    const closeModal = () => {
-        set(false);
-    };
-
-    // Función para manejar el envío del formulario según el tipo de modal
-    const handleSubmit = () => {
-        if (modalType === 'edit') {
-            handleEditUser();
-        } else if (modalType === 'password') {
-            handleChangePassword();
-        }
-    };
-
-    useFocusEffect(
-        useCallback(() => {
-            getUser();
-        }, [])
-    );
-
-    // Uso del hook useEffect para obtener los datos del perfil cuando el componente se monta
-    /*
-    useEffect(() => {
-        getProfileData();
-    }, []);
-    */
 
     return (
         <View style={styles.container}>
@@ -190,13 +153,12 @@ export default function Cuenta({ navigation }) {
                     setDui={setDui}
                 />
             </View>
-            <TouchableOpacity onPress={irEdit}  style={styles.button}>
+            <TouchableOpacity onPress={editProfile}  style={styles.button}>
                 <Text style={styles.buttonText}  >Editar datos</Text>
             </TouchableOpacity>
-
-            <TouchableOpacity onPress={handleLogOut} style={styles.button}>
-                <Text style={styles.buttonText}>Cerrar sesión</Text>
-            </TouchableOpacity>            
+            <TouchableOpacity onPress={irUser} style={styles.button}>
+                <Text style={styles.buttonText}>Regresar</Text>
+            </TouchableOpacity>    
         </View>
     );
 };

@@ -16,6 +16,8 @@ import Recup1 from './src/screens/Recup1';
 import Recup2 from './src/screens/Recup2';
 import DetalleProd from './src/screens/DetalleProd';
 import NavBottom from './src/navegacion/NavBottom';
+import EditUsuario from './src/screens/EditUsuario';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -98,6 +100,21 @@ export default function App() {
                     name="NavBottom"
                     component={NavBottom}
                     options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="EditUsuario"
+                    component={EditUsuario}
+                    options={{
+                        headerShown: true,
+                        title: 'Editar Usuario',
+                        headerStyle: {
+                            backgroundColor: '#3C4E0B',
+                            textAlign:'center',
+                            title: 'Aligned Center',
+                            headerTitleAlign: 'center'
+                        },
+                        headerTintColor: 'white',
+                    }}
                 />
                 <Stack.Screen
                     name="Notificaciones"
