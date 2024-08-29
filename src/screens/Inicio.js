@@ -105,7 +105,6 @@ export default function Productos({ navigation }) {
   
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Catalogo de Productos</Text>
         <ModalCompra
           visible={modalVisible}
           cerrarModal={setModalVisible}
@@ -136,13 +135,13 @@ export default function Productos({ navigation }) {
             keyExtractor={(item) => item.id_producto}
             renderItem={({ item }) => ( // Util izamos destructuración para obtener directamente el item
               <ProductoCard ip={ip}
-                imagenProducto={item.imagen_producto}
-                idProducto={item.id_producto}
-                nombreProducto={item.nombre_producto}
-                descripcionProducto={item.descripcion_producto}
-                precioProducto={item.precio_producto}
-                existenciasProducto={item.existencias_producto}
-                accionBotonProducto={() => handleCompra(item.nombre_producto, item.id_producto)}
+                imagenProducto={item.imagen_libro}
+                idProducto={item.id_libro}
+                nombreProducto={item.nombre_libro}
+                descripcionProducto={item.descripcion_libro}
+                precioProducto={item.precio_libro}
+                existenciasProducto={item.existencias_libro}
+                accionBotonProducto={() => handleCompra(item.nombre_libro, item.id_libro)}
               />
             )}
           />
@@ -166,7 +165,7 @@ export default function Productos({ navigation }) {
     },
     container: {
       flex: 1,
-      backgroundColor: '#EAD8C0',
+      backgroundColor: 'white',
       alignItems: 'center',
       justifyContent: 'center',
       paddingTop: Constants.statusBarHeight,
@@ -242,14 +241,15 @@ export default function Productos({ navigation }) {
     cartButton: {
       flexDirection: 'row',
       alignItems: 'center',
-      backgroundColor: '#AF8260',
+      backgroundColor: '#777F47',
       borderRadius: 5,
-      paddingVertical: 10,
+      borderWidth: 1,
+      borderColor: '#777F47',       paddingVertical: 10,
       paddingHorizontal: 20,
       marginVertical: 10,
     },
     cartButtonText: {
-      color: '#ffffff',
+      color: 'white',
       fontSize: 16,
       fontWeight: '600',
       marginLeft: 10,
@@ -259,18 +259,23 @@ export default function Productos({ navigation }) {
       fontWeight: '600',
       marginVertical: 5,
       marginHorizontal: 5,
-      color: '#5C3D2E', // Brown color for the title
+      color: 'black',
+      marginBottom:20, // Brown color for the title
     },
     pickerContainer: {
       borderWidth: 1,
-      borderColor: '#AF8260', // Color del borde
+      borderColor: '#777F47', // Color del borde
       borderRadius: 5,
       paddingHorizontal: 10,
       paddingVertical: 5,
       marginBottom: 10,
-      backgroundColor: '#AF8260', // Color de fondo
+      backgroundColor: '#777F47', // Color de fondo
     },
     picker: {
-      color: '#ffffff'
+      color: 'white',
+      borderRadius: 5,
+      borderWidth: 1,
+      borderColor: '#777F47',    
     },
+
   });
