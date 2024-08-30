@@ -16,10 +16,10 @@ const styles = StyleSheet.create({
 
     button: {
         borderWidth: 1,
-        borderColor: "#040457",
+        borderColor: "#777F47",
         width: 200,
         borderRadius: 10,
-        backgroundColor: "#040457",
+        backgroundColor: "#777F47",
         padding: 10,
         marginVertical: 5
     },

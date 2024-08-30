@@ -5,7 +5,7 @@ import * as Constantes from '../../../api/contants'
 
 const ModalCompra = ({ visible, cerrarModal, nombreProductoModal, idProductoModal, cantidad, setCantidad}) => {
 
-  const ip = Constantes.IP;
+  const ip = Constantes.SERVER_URL;
 
   const handleCreateDetail = async () => {
 
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   button: {
-    backgroundColor: '#007bff',
+    backgroundColor: '#777F47',
     borderRadius: 5,
     paddingVertical: 10,
     paddingHorizontal: 20,

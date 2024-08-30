@@ -147,13 +147,7 @@ export default function Productos({ navigation }) {
           />
         </SafeAreaView>
   
-        <TouchableOpacity
-          style={styles.cartButton}
-          onPress={irCarrito}>
-          <FontAwesome name="shopping-cart" size={24} color="white" />
-          <Text style={styles.cartButtonText}>Ir al carrito</Text>
-        </TouchableOpacity>
-  
+       
       </View>
     );
   }

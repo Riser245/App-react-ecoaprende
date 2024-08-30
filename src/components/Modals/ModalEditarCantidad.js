@@ -5,7 +5,7 @@ import * as Constantes from '../../../api/contants';
 
 const ModalEditarCantidad = ({setModalVisible, modalVisible, idDetalle, setCantidadProductoCarrito, cantidadProductoCarrito, getDetalleCarrito}) => {
 
-  const ip = Constantes.IP;
+  const ip = Constantes.SERVER_URL;
 
   const handleUpdateDetalleCarrito = async () => {
     try {
@@ -18,7 +18,7 @@ const ModalEditarCantidad = ({setModalVisible, modalVisible, idDetalle, setCanti
       formData.append('idDetalle', idDetalle);
       formData.append('cantidadProducto', cantidadProductoCarrito);
 
-      const response = await fetch(`${ip}/coffeeshop/api/services/public/pedido.php?action=updateDetail`, {
+      const response = await fetch(`${ip}servicios/cliente/pedido.php?action=updateDetail`, {
         method: 'POST',
         body: formData
       });
