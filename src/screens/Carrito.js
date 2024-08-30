@@ -28,7 +28,7 @@ const Carrito = ({ navigation }) => {
 
   // Función para navegar hacia atrás a la pantalla de productos
   const backProducts = () => {
-    navigation.navigate('NavBottom');
+    navigation.navigate('Inicio');
   };
 
   // Efecto para cargar los detalles del carrito al cargar la pantalla o al enfocarse en ella
@@ -69,7 +69,6 @@ const Carrito = ({ navigation }) => {
       if (data.status) {
         Alert.alert("Se finalizó la compra correctamente")
         setDataDetalleCarrito([]); // Limpia la lista de detalles del carrito
-        navigation.navigate('TabNavigator', { screen: 'Carrito' });
       } else {
         Alert.alert('Error', data.error);
       }
@@ -123,7 +122,7 @@ const Carrito = ({ navigation }) => {
         <FlatList
           data={dataDetalleCarrito}
           renderItem={renderItem}
-          keyExtractor={(item) => item.id_detalle.toString()}
+          keyExtractor={(item) => item.id_detalles_pedidos.toString()}
         />
       ) : (
         <Text style={styles.titleDetalle}>No hay detalles del carrito disponibles.</Text>

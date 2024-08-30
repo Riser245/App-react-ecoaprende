@@ -58,11 +58,6 @@ function TabNavigator({ navigation }) {
                 {headerContent2}
               </Text>
             </View>
-            {['Ecoaprende'].includes(headerContent) && (
-              <TouchableOpacity onPress={() => navigation.navigate('Notificaciones')}>
-                <Ionicons name="notifications-outline" size={30} color="white" style={styles.notificationIcon} />
-              </TouchableOpacity>
-            )}
           </View>
         </View>
 
@@ -79,9 +74,9 @@ function TabNavigator({ navigation }) {
                                 case 'Carrito':
                                     iconName = focused ? 'cart' : 'cart-outline';
                                     break;
-                                case 'Ordenes':
+                                /* case 'Ordenes':
                                     iconName = focused ? 'bag' : 'bag-outline';
-                                    break;
+                                    break; */
                                 case 'Cuenta':
                                     iconName = focused ? 'person' : 'person-outline';
                                     break;
@@ -110,10 +105,10 @@ function TabNavigator({ navigation }) {
                                     setHeaderContent('Ecoaprende');
                                     setHeaderContent2('Mi carrito');
                                     break;
-                                case 'Ordenes':
+                                /* case 'Ordenes':
                                     setHeaderContent('Ecoaprende');
                                     setHeaderContent2('Ordenes');
-                                    break;
+                                    break; */
                                 case 'Cuenta':
                                     setHeaderContent('Mi Cuenta');
                                     setHeaderContent2('');
@@ -136,11 +131,11 @@ function TabNavigator({ navigation }) {
                         component={Carrito}
                         options={{ headerShown: false }}
                     />
-                    <Tab.Screen
+                    {/* <Tab.Screen
                         name="Ordenes"
                         component={Ordenes}
                         options={{ headerShown: false }}
-                    />
+                    /> */}
                     <Tab.Screen
                         name="Cuenta"
                         component={Cuenta}
